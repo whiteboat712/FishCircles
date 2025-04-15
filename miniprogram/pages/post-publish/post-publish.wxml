@@ -1,0 +1,39 @@
+<!-- pages/post-publish/post-publish.wxml -->
+<view class="container">
+  <van-cell-group inset custom-class="post-card">
+    <!-- 标题区域 -->
+    <view class="post-header">
+      <text class="post-title">发布动态</text>
+    </view>
+    <!-- 内容输入区域 -->
+    <van-field model:value="{{content}}" type="textarea" placeholder="分享你的钓鱼心得..." autosize="{{ { maxHeight: 150, minHeight: 100 } }}" border="{{ false }}" maxlength="500" show-word-limit bind:change="onContentChange" custom-class="content-field" />
+    <!-- 图片上传区域 -->
+    <view class="upload-container">
+      <van-uploader file-list="{{ imageList }}" bind:after-read="afterRead" bind:delete="onDelete" deletable="{{ true }}" image-fit="aspectFill" upload-text="上传图片" custom-class="image-uploader" />
+    </view>
+    <!-- 可见范围选择 -->
+    <van-cell title="可见范围" custom-class="option-cell">
+      <van-radio-group value="{{ visibleScope }}" bind:change="onVisibleScopeChange" direction="horizontal">
+        <van-radio name="PUBLIC" custom-class="radio-option">公开</van-radio>
+        <van-radio name="PRIVATE" custom-class="radio-option">私密</van-radio>
+      </van-radio-group>
+    </van-cell>
+    <!-- 位置共享开关 -->
+    <van-cell center title="分享位置" use-label-slot custom-class="option-cell">
+      <view slot="label" class="location-option">
+        <van-tag wx:if="{{ locationShared }}" color="#a5cee4" text-color="#065f8e" size="medium">
+          <van-icon name="location-o" size="14px" />
+          <text>{{locationName || (latitude + ', ' + longitude)}}</text>
+        </van-tag>
+      </view>
+      <van-switch checked="{{ locationShared }}" bind:change="onLocationSharedChange" size="24px" />
+    </van-cell>
+  </van-cell-group>
+  <!-- 发布按钮 -->
+  <view class="publish-btn-container">
+    <van-button type="primary" block round loading="{{submitting}}" bind:click="publishPost" custom-class="publish-btn">
+      发布动态
+    </van-button>
+  </view>
+  <van-toast id="van-toast" />
+</view>

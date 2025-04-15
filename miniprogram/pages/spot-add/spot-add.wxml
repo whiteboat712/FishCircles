@@ -1,0 +1,92 @@
+<!-- pages/spot-add/spot-add.wxml -->
+<view class="container">
+  <van-cell-group inset custom-class="spot-card">
+    <!-- 标题区域 -->
+    <view class="spot-header">
+      <text class="spot-title">添加钓点</text>
+    </view>
+    <!-- 钓点名称 -->
+    <van-field model:value="{{name}}" label="钓点名称" placeholder="请输入钓点名称" border="{{ false }}" required maxlength="50" show-word-limit bind:change="onNameChange" custom-class="field-item" />
+    <!-- 钓点描述 -->
+    <van-field model:value="{{description}}" label="钓点描述" type="textarea" placeholder="描述一下这个钓点的特点、环境、鱼种等信息..." autosize="{{ { maxHeight: 150, minHeight: 80 } }}" border="{{ false }}" maxlength="500" show-word-limit bind:change="onDescriptionChange" custom-class="field-item" />
+    <!-- 价格设置 -->
+    <van-cell title="收费情况" custom-class="option-cell">
+      <van-radio-group value="{{ priceType }}" bind:change="onPriceTypeChange" direction="horizontal">
+        <van-radio name="FREE" custom-class="radio-option">免费</van-radio>
+        <van-radio name="PAID" custom-class="radio-option">收费</van-radio>
+      </van-radio-group>
+    </van-cell>
+    <!-- 收费金额，仅在选择收费时显示 -->
+    <block wx:if="{{priceType === 'PAID'}}">
+      <van-field model:value="{{price}}" label="收费金额" placeholder="请输入收费金额" border="{{ false }}" type="digit" bind:change="onPriceChange" custom-class="field-item">
+        <text slot="right-icon">元/天</text>
+      </van-field>
+    </block>
+    <!-- 图片上传区域 -->
+    <view class="upload-container">
+      <text class="upload-title">钓点照片</text>
+      <van-uploader file-list="{{ imageList }}" max-count="9" bind:after-read="afterRead" bind:delete="onDelete" image-fit="aspectFill" upload-text="上传图片" custom-class="image-uploader" />
+    </view>
+    <!-- 位置共享开关 -->
+    <van-cell title="钓点位置" label="{{latitude ? (latitude + ', ' + longitude) : '未设置位置'}}" custom-class="option-cell">
+      <view class="location-buttons">
+        <van-button bind:tap="getLocation" size="small" custom-class="location-btn">
+          自动定位
+        </van-button>
+        <van-button bind:tap="openMapSelector" size="small" type="primary" custom-class="location-btn">
+          手动选点
+        </van-button>
+      </view>
+    </van-cell>
+    <!-- 鱼类选择 -->
+    <van-cell title="钓点鱼类" label="{{selectedSpecies.length > 0 ? '已选择' + selectedSpecies.length + '种鱼类:' + selectedSpecies : '未选择鱼类'}}" custom-class="option-cell">
+      <van-button bind:tap="openSpeciesSelector" size="small" type="primary">选择鱼类</van-button>
+    </van-cell>
+  </van-cell-group>
+  <!-- 提交按钮 -->
+  <view class="submit-btn-container">
+    <van-button type="primary" block round loading="{{submitting}}" bind:click="submitSpot" custom-class="submit-btn">
+      提交钓点
+    </van-button>
+  </view>
+  <van-toast id="van-toast" />
+  <!-- 地图选点弹窗 -->
+  <van-popup show="{{showMapPopup}}" position="bottom" custom-style="height: 70%;" bind:close="closeMapSelector">
+    <view class="map-container">
+      <view class="popup-title">选择钓点位置</view>
+      <map class="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="14" show-location bindtap="onMapTap"></map>
+      <view class="popup-footer">
+        <van-button type="default" bind:tap="closeMapSelector" custom-class="popup-btn">
+          取消
+        </van-button>
+        <van-button type="primary" bind:tap="confirmMapLocation" custom-class="popup-btn">
+          确认位置
+        </van-button>
+      </view>
+    </view>
+  </van-popup>
+  <!-- 鱼类选择弹窗 -->
+  <van-popup show="{{showSpeciesPopup}}" position="bottom" custom-style="height: 60%;" bind:close="closeSpeciesSelector">
+    <view class="species-container">
+      <view class="popup-title">选择钓点鱼类</view>
+      <view class="species-list">
+        <block wx:if="{{fishSpecies.length > 0}}">
+          <view wx:for="{{fishSpecies}}" wx:key="fishId" class="species-item {{item.selected ? 'selected' : ''}}" data-id="{{item.fishId}}" bind:tap="toggleSpecies">
+            <text>{{item.fishId + item.name}}</text>
+            <van-icon wx:if="{{item.selected}}" name="success" color="#07c160" size="16px" />
+          </view>
+        </block>
+        <view wx:else class="no-species">暂无鱼类数据</view>
+      </view>
+      <view class="popup-footer">
+        <van-button type="default" bind:tap="closeSpeciesSelector" custom-class="popup-btn">
+          取消
+        </van-button>
+        <van-button type="primary" bind:tap="closeSpeciesSelector" custom-class="popup-btn">
+          确认选择
+        </van-button>
+      </view>
+    </view>
+  </van-popup>
+  <van-toast id="van-toast" />
+</view>

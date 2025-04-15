@@ -1,0 +1,266 @@
+/* pages/messages/messages.wxss */
+.container {
+  padding: 0;
+  background-color: #f2f2f4;
+  min-height: 100vh;
+}
+
+/* 消息类型区域 */
+.message-types {
+  display: flex;
+  background-color: #fff;
+  padding: 30rpx 0;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.message-type {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 20rpx 0;
+  color: #666;
+}
+
+.message-type.active {
+  color: #1296db;
+}
+
+.message-type text {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+}
+
+.badge {
+  position: absolute;
+  top: 0;
+  right: 50%;
+  margin-right: -40rpx;
+  background-color: #ff2c54;
+  color: #fff;
+  font-size: 20rpx;
+  height: 32rpx;
+  min-width: 32rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6rpx;
+}
+
+/* 消息内容区域 */
+.message-content {
+  background-color: #fff;
+  margin-bottom: 20rpx;
+  padding: 0 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.message-item {
+  display: flex;
+  padding: 30rpx 0;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.avatar {
+  margin-right: 20rpx;
+  position: relative;
+}
+
+.message-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+
+.username {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.message-brief {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* 消息卡片样式 */
+.message-card {
+  background-color: #fff;
+  border-radius: 12rpx;
+  margin: 20rpx 0;
+  padding: 24rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.message-card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16rpx;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-name-time {
+  display: flex;
+  flex-direction: column;
+  margin-left: 16rpx;
+}
+
+.message-card-content {
+  padding: 10rpx 0;
+}
+
+.quoted-content {
+  background-color: #f7f7f7;
+  border-radius: 8rpx;
+  padding: 16rpx;
+  margin-top: 16rpx;
+}
+
+.quoted-text {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.review-text {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.5;
+  word-break: break-all;
+}
+
+/* 私信区域 */
+.chat-section {
+  background-color: #fff;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+  padding: 30rpx 0 20rpx;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.chat-item {
+  display: flex;
+  padding: 30rpx 20rpx;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.chat-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+
+.chat-brief {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 600rpx;
+}
+
+.unread-badge {
+  position: absolute;
+  top: -6rpx;
+  right: -6rpx;
+  background-color: #ff2c54;
+  color: #fff;
+  font-size: 20rpx;
+  height: 32rpx;
+  min-width: 32rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6rpx;
+}
+
+/* 删除按钮 */
+.delete-btn {
+  background-color: #ff4d4f;
+  color: #fff;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 65px;
+  font-size: 28rpx;
+}
+
+/* 加载和空状态 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60rpx 0;
+}
+
+.empty-container {
+  padding: 60rpx 0;
+}
+
+/* 弹出层样式 */
+.popup-container {
+  padding: 30rpx;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20rpx;
+  border-bottom: 1px solid #f5f5f5;
+  margin-bottom: 20rpx;
+}
+
+.popup-title {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.close-icon {
+  padding: 10rpx;
+}
+
+.popup-content {
+  flex: 1;
+  overflow-y: auto;
+}

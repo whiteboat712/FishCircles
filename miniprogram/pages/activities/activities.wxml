@@ -1,0 +1,83 @@
+<!-- pages/activities/activities.wxml -->
+<view class="container">
+  <!-- 标签页切换 -->
+  <van-tabs active="{{ activeTab }}" bind:change="onTabChange" sticky>
+    <van-tab title="全部活动"></van-tab>
+    <van-tab title="同城活动"></van-tab>
+  </van-tabs>
+  <!-- 活动列表 -->
+  <scroll-view refresher-enabled="true" refresher-enabled refresher-triggered="{{ loading }}" bindrefresherrefresh="reLoad" scroll-y="true" class="activity-list">
+    <!-- 加载中 -->
+    <view class="loading-container" wx:if="{{loading}}">
+      <van-loading size="24px" vertical>加载中...</van-loading>
+    </view>
+    <!-- 无数据展示 -->
+    <block wx:elif="{{activeTab === 0 && !activities.length || activeTab === 1 && !filteredActivities.length}}">
+      <van-empty description="{{activeTab === 0 ? '暂无活动' : '暂无同城活动'}}" />
+    </block>
+    <view wx:else>
+      <view class="activity-item" wx:for="{{activeTab === 0 ? activities : filteredActivities}}" wx:key="activityId" wx:for-index="activityIndex" bindtap="goToActivityDetail" data-activity-id="{{item.activityId}}">
+        <view class="activity-card">
+          <!-- 活动标题 -->
+          <view class="activity-title">{{item.title}}</view>
+          <!-- 活动内容 -->
+          <view class="activity-content">{{item.description}}</view>
+          <!-- 图片展示 -->
+          <view class="activity-images {{item.imageUrls.length === 1 ? 'single-image' : ''}}" wx:if="{{item.imageUrls.length > 0}}">
+            <van-image wx:for="{{item.imageUrls}}" wx:for-item="img" wx:key="index" width="{{item.imageUrls.length === 1 ? '650rpx' : '220rpx'}}" height="{{item.imageUrls.length === 1 ? '400rpx' : '220rpx'}}" fit="cover" src="{{img}}" radius="8rpx" lazy-load />
+          </view>
+          <!-- 活动信息 -->
+          <view class="activity-meta">
+            <view class="activity-start-time">
+              <van-tag text-color="#1976D2" color="#BBDEFB" size="large" round>
+                <van-icon name="underway-o" size="14px" />
+                <text>开始时间: {{item.startTime}}</text>
+              </van-tag>
+            </view>
+            <view class="activity-location" wx:if="{{item.spot}}">
+              <van-tag text-color="#1976D2" color="#BBDEFB" size="large" round>
+                <van-icon name="location-o" size="14px" />
+                <text>钓点: {{item.spot.name}}</text>
+              </van-tag>
+            </view>
+          </view>
+          <!-- 用户信息区域 -->
+          <view class="activity-header">
+            <view class="user-avatar" bindtap="goToUserProfile" data-user-id="{{item.userId}}" catchtap="goToUserProfile">
+              <van-image round width="40px" height="40px" src="{{item.organizerAvatar}}" fit="cover" />
+            </view>
+            <view class="activity-info">
+              <view class="activity-organizer">{{item.organizerName}}</view>
+              <view class="activity-time">{{item.formattedTime || item.createdAt}}</view>
+            </view>
+          </view>
+          <!-- 操作栏 -->
+          <view class="activity-actions">
+            <view class="action-item {{item.isLiked ? 'liked' : ''}}" catch:tap="handleLike" data-activity-id="{{item.activityId}}" data-index="{{activityIndex}}">
+              <van-icon name="{{item.isLiked ? 'good-job' : 'good-job-o'}}" size="24px" color="{{item.isLiked ? '#ff2c54' : ''}}" />
+              <text>{{item.likeCount || 0}}</text>
+            </view>
+            <view class="action-item" catch:tap="goToComment" data-activity-id="{{item.activityId}}">
+              <van-icon name="comment-o" size="24px" />
+              <text>{{item.reviewCount || 0}}</text>
+            </view>
+            <view class="action-item">
+              <button class="share-btn" open-type="share" catchtap="shareActivity" data-activity-id="{{item.activityId}}">
+                <van-icon name="share-o" size="24px" />
+                <text>分享</text>
+              </button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <!-- 发布活动按钮 -->
+  <view class="floating-btn polish-btn" bindtap="goToPublish">
+    <van-icon name="plus" size="24px" color="#fff" />
+  </view>
+  <!-- 搜索活动按钮 -->
+  <view class="floating-btn search-btn" bindtap="goToSearch">
+    <van-icon name="search" size="24px" color="#fff" />
+  </view>
+</view>

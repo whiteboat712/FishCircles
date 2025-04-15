@@ -1,0 +1,37 @@
+/* pages/profile-edit/profile-edit.wxss */
+.profile-edit-container {
+  min-height: 100vh;
+  background-color: #f2f2f4;
+}
+
+.avatar-section {
+  display: flex;
+  justify-content: center;
+  padding: 40rpx 0;
+}
+
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.avatar-edit-text {
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  color: #1296db;
+}
+
+.action-buttons {
+  padding: 40rpx 20rpx;
+}
+
+.action-btn {
+  margin-bottom: 20rpx !important;
+}
+
+.back-btn {
+  border: 1px solid #1296db !important;
+  color: #1296db !important;
+}

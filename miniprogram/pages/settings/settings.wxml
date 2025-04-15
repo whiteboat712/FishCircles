@@ -1,0 +1,41 @@
+<!-- pages/settings/settings.wxml -->
+<view class="settings-container">
+  <!-- 未登录状态 -->
+  <view class="not-login" wx:if="{{!user}}">
+    <view class="login-icon">
+      <van-icon name="setting-o" size="80px" color="#1296db" />
+    </view>
+    <view class="login-text">请先登录</view>
+    <van-button type="info" size="normal" custom-class="login-btn" bind:tap="goToLogin">
+      去登录
+    </van-button>
+  </view>
+  <!-- 已登录状态 -->
+  <block wx:else>
+    <van-cell-group title="隐私设置" inset custom-class="setting-group">
+      <van-cell title="动态可见范围" value="{{user.dynamicVisibleScope === 'PUBLIC' ? '公开' : '仅关注者'}}" is-link bind:tap="toggleDynamicVisibleScope" />
+      <van-cell title="位置共享" label="开启后其他用户可以看到您的位置">
+        <van-switch checked="{{user.locationShareEnabled}}" bind:change="toggleLocationShare" size="24px" active-color="#1296db" />
+      </van-cell>
+    </van-cell-group>
+    <van-cell-group title="通知设置" inset custom-class="setting-group">
+      <van-cell title="新消息通知" label="接收新消息时通知我">
+        <van-switch checked="{{true}}" size="24px" active-color="#1296db" />
+      </van-cell>
+      <van-cell title="活动提醒" label="活动开始前提醒我">
+        <van-switch checked="{{true}}" size="24px" active-color="#1296db" />
+      </van-cell>
+    </van-cell-group>
+    <van-cell-group title="其他设置" inset custom-class="setting-group">
+      <van-cell title="清除缓存" is-link />
+      <van-cell title="关于我们" is-link bind:tap="goToAbout" />
+      <van-cell title="意见反馈" is-link />
+    </van-cell-group>
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <van-button type="default" size="large" custom-class="action-btn logout-btn" bind:tap="logout">
+        退出登录
+      </van-button>
+    </view>
+  </block>
+</view>

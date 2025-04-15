@@ -1,0 +1,165 @@
+/* pages/about/about.wxss */
+.about-container {
+  min-height: 100vh;
+  background-color: #f8f8f8;
+  padding: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Logo部分样式 */
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 60rpx 0;
+}
+
+.logo-container {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 24rpx; /* 改为圆角矩形 */
+  overflow: hidden;
+  box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.2),
+    -20px -20px 40px rgba(255, 255, 255, 1);
+  transition: all 0.5s;
+  position: relative;
+  // transform: rotate(-30deg) skewX(20deg);
+}
+.logo-container:hover {
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.2), 0 0 0 rgba(255, 255, 255, 1),
+    inset 20px 20px 40px rgba(0, 0, 0, 0.2),
+    inset -20px -20px 40px rgba(255, 255, 255, 1);
+}
+
+.logo-image {
+  width: 100%;
+  height: 100%;
+  transition: all 0.5s;
+}
+
+.app-name {
+  font-size: 48rpx;
+  font-weight: bold;
+  margin-top: 30rpx;
+  color: #333;
+}
+
+.app-version {
+  font-size: 28rpx;
+  color: #999;
+  margin-top: 10rpx;
+}
+
+/* 内容部分样式 */
+.about-content {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.about-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  position: relative;
+  padding-left: 20rpx;
+}
+
+.about-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8rpx;
+  width: 8rpx;
+  height: 36rpx;
+  background-color: #1296db;
+  border-radius: 4rpx;
+}
+
+.about-text {
+  font-size: 30rpx;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 40rpx;
+}
+
+/* 功能列表 */
+.feature-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 30rpx;
+}
+
+.feature-item {
+  width: 48%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  border-radius: 12rpx;
+}
+
+.feature-item text {
+  margin-left: 16rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+/* 联系我们部分 */
+.contact-section {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.05);
+}
+
+.contact-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30rpx;
+  position: relative;
+  padding-left: 20rpx;
+}
+
+.contact-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8rpx;
+  width: 8rpx;
+  height: 36rpx;
+  background-color: #1296db;
+  border-radius: 4rpx;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.contact-item text {
+  margin-left: 16rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+/* 版权信息 */
+.copyright {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 40rpx;
+  margin-bottom: 30rpx;
+  text-align: center;
+}

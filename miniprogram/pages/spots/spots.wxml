@@ -1,0 +1,75 @@
+<!-- pages/spots/spots.wxml -->
+<view class="container">
+  <!-- 地图视图 -->
+  <view class="map-container">
+    <map id="map" longitude="{{longitude}}" latitude="{{latitude}}" scale="14" markers="{{markers}}" show-location enable-3D style="width: 100%; height: 100%;" bindmarkertap="showSpotDetail" bindcallouttap="showSpotDetail"></map>
+    <!-- 弹出卡片 -->
+    <van-popup show="{{ showSpotPopup }}" position="bottom" custom-style="border-radius: 24rpx 24rpx 0 0;" bind:close="closeSpotPopup" safe-area-inset-bottom="{{false}}" round>
+      <view class="spot-popup-content" wx:if="{{currentSpot}}">
+        <view class="spot-card">
+          <view class="spot-image-container">
+            <van-image class="spot-image" src="{{currentSpot.imageUrls[0]}}" fit="cover" lazy-load radius="8rpx" width="100%" height="300rpx" />
+            <view class="spot-distance" wx:if="{{currentSpot.distance}}">
+              {{currentSpot.distance}}km
+            </view>
+          </view>
+          <view class="spot-content">
+            <view class="spot-header">
+              <text class="spot-name">{{currentSpot.name}}</text>
+            </view>
+            <view class="spot-desc">{{currentSpot.description}}</view>
+            <view class="spot-tags">
+              <van-tag plain type="primary" custom-class="spot-tag">
+                {{ currentSpot.fee ? currentSpot.fee + '￥' : '免费' }}
+              </van-tag>
+              <van-tag plain type="primary" wx:if="{{currentSpot.distance < 5}}" custom-class="spot-tag">
+                附近
+              </van-tag>
+            </view>
+            <view class="spot-actions">
+              <button class="btn-detail" bindtap="goToSpotDetail" data-id="{{currentSpot.spotId}}">
+                <van-icon name="eye-o" size="16px" />
+                <text>查看详情</text>
+              </button>
+            </view>
+          </view>
+        </view>
+      </view>
+    </van-popup>
+    <!-- 筛选控制区 -->
+    <view class="filter-container">
+      <view class="filter-header">
+        <text class="filter-title">筛选条件</text>
+      </view>
+      <view class="filter-content">
+        <view class="filter-item">
+          <text>距离</text>
+          <picker header-text="距离" mode="selector" range="{{distanceRange}}" bindchange="filterSpots" data-type="distance">
+            <view class="picker-value">{{filterOptions.distance}}km</view>
+          </picker>
+        </view>
+        <view class="filter-item search">
+          <input type="text" placeholder="搜索钓点" bindinput="filterSpots" data-type="keyword" value="{{filterOptions.keyword}}" />
+        </view>
+      </view>
+    </view>
+    <!-- 功能按钮区 -->
+    <view class="action-buttons">
+      <button class="btn-add" bindtap="goToSpotAdd">
+        <text class="btn-icon">+</text>
+        <text>添加钓点</text>
+      </button>
+      <button class="btn-list" bindtap="goToSpotsList">
+        <text class="btn-icon">≡</text>
+        <text>查看列表</text>
+      </button>
+    </view>
+  </view>
+  <!-- 加载状态 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading">
+      <image class="loading-icon" src="/assets/images/loading.svg"></image>
+      <text>加载中...</text>
+    </view>
+  </view>
+</view>

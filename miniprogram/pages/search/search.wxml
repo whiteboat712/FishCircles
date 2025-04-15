@@ -1,0 +1,133 @@
+<!-- pages/search/search.wxml -->
+<view class="container {{searchFocused ? 'search-focused' : ''}}">
+  <!-- 搜索框 -->
+  <view class="search-container">
+    <van-search value="{{ searchValue }}" placeholder="搜索动态、钓点、活动" show-action bind:search="onSearch" bind:change="onSearchChange" bind:cancel="onCancel" bind:clear="onClear" bind:focus="onSearchFocus" bind:blur="onSearchBlur" shape="round" background="#ffffff" custom-class="custom-search" field-class="search-field" input-class="search-input" action-class="search-action" cancel-class="search-cancel" label="" action-text="取消" />
+  </view>
+  <!-- 标签页切换 -->
+  <van-tabs active="{{ activeTab }}" bind:change="onTabChange" sticky animated swipeable>
+    <van-tab title="动态"></van-tab>
+    <van-tab title="钓点"></van-tab>
+    <van-tab title="活动"></van-tab>
+  </van-tabs>
+  <!-- 搜索结果展示区域 -->
+  <scroll-view refresher-enabled="true" refresher-triggered="{{ loading }}" bindrefresherrefresh="reLoad" scroll-y="true" class="search-results">
+    <!-- 加载中 -->
+    <view class="loading-container" wx:if="{{loading}}">
+      <van-loading size="24px" vertical>加载中...</van-loading>
+    </view>
+    <!-- 无搜索关键词提示 -->
+    <block wx:elif="{{!searchValue}}">
+      <view class="empty-search">
+        <van-empty description="请输入搜索关键词" />
+      </view>
+    </block>
+    <!-- 无搜索结果提示 -->
+    <block wx:elif="{{activeTab === 0 && !posts.length || activeTab === 1 && !fishingSpots.length || activeTab === 2 && !activities.length}}">
+      <van-empty description="未找到相关{{activeTab === 0 ? '动态' : activeTab === 1 ? '钓点' : '活动'}}" />
+    </block>
+    <!-- 动态搜索结果 -->
+    <view wx:elif="{{activeTab === 0}}" class="result-list">
+      <view class="post-item" wx:for="{{posts}}" wx:key="postId" wx:for-index="postIndex" bindtap="goToPostDetail" data-post-id="{{item.postId}}">
+        <view class="post-card">
+          <!-- 用户信息区域 -->
+          <view class="post-header">
+            <view class="user-avatar" catchtap="goToUserProfile" data-user-id="{{item.userId}}" catchtap="goToUserProfile">
+              <van-image round width="40px" height="40px" src="{{item.userAvatar}}" fit="cover" />
+            </view>
+            <view class="post-info">
+              <view class="post-user">{{item.userName}}</view>
+              <view class="post-time">{{item.formattedTime || item.createdAt}}</view>
+            </view>
+            <view class="post-tag">
+              <van-tag color="#c6e1d8" text-color="#186b50" wx:if="{{item.visibleScope === 'PUBLIC'}}">
+                公开
+              </van-tag>
+              <van-tag color="#ffc1af" text-color="#ff4008" wx:else>私密</van-tag>
+            </view>
+          </view>
+          <!-- 动态内容 -->
+          <view class="post-content">{{item.content}}</view>
+          <!-- 图片展示 -->
+          <view class="post-images {{item.imageUrls.length === 1 ? 'single-image' : ''}}" wx:if="{{item.imageUrls.length > 0}}">
+            <van-image wx:for="{{item.imageUrls}}" wx:for-item="img" wx:key="index" width="{{item.imageUrls.length === 1 ? '650rpx' : '220rpx'}}" height="{{item.imageUrls.length === 1 ? '400rpx' : '220rpx'}}" fit="cover" src="{{img}}" radius="8rpx" lazy-load />
+          </view>
+          <!-- 位置信息 -->
+          <view class="post-location" wx:if="{{item.locationShared}}">
+            <van-tag color="#a5cee4" text-color="#065f8e" size="medium">
+              <van-icon name="location-o" size="14px" />
+              <text>{{item.locationName || (item.latitude + ', ' + item.longitude)}}</text>
+            </van-tag>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- 钓点搜索结果 -->
+    <view wx:elif="{{activeTab === 1}}" class="result-list">
+      <view class="spots-item" wx:for="{{fishingSpots}}" wx:key="spotId" wx:for-index="fishingSpotIndex" data-id="{{item.spotId}}">
+        <view class="spot-card" bindtap="goToSpotDetail" data-id="{{item.spotId}}" style="animation-delay: {{index * 0.1}}s">
+          <view class="spot-image-container">
+            <van-image class="spot-image" src="{{item.imageUrls[0]}}" fit="cover" lazy-load radius="8rpx" width="100%" height="300rpx" />
+            <view class="spot-distance" wx:if="{{item.distance}}">{{item.distance}}km</view>
+          </view>
+          <view class="spot-content">
+            <view class="spot-header">
+              <text class="spot-name">{{item.name}}</text>
+            </view>
+            <view class="spot-price">{{item.price}}</view>
+            <view class="spot-desc">{{item.description}}</view>
+            <view class="spot-tags">
+              <van-tag plain type="primary" wx:if="{{item.distance < 5}}" custom-class="spot-tag">
+                附近
+              </van-tag>
+              <van-tag plain type="success" wx:if="{{item.rating >= 4.5}}" custom-class="spot-tag">
+                推荐
+              </van-tag>
+              <van-tag plain type="warning" wx:if="{{item.price === '免费'}}" custom-class="spot-tag">
+                免费
+              </van-tag>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <!-- 活动搜索结果 -->
+    <view wx:elif="{{activeTab === 2}}" class="result-list">
+      <view class="activity-item" wx:for="{{activities}}" wx:key="activityId" wx:for-index="activityIndex" bindtap="goToActivityDetail" data-activity-id="{{item.activityId}}">
+        <view class="activity-card">
+          <!-- 活动标题 -->
+          <view class="activity-title">{{item.title}}</view>
+          <!-- 活动内容 -->
+          <view class="activity-content">{{item.description}}</view>
+          <!-- 图片展示 -->
+          <view class="activity-images {{item.imageUrls.length === 1 ? 'single-image' : ''}}" wx:if="{{item.imageUrls.length > 0}}">
+            <van-image wx:for="{{item.imageUrls}}" wx:for-item="img" wx:key="index" width="{{item.imageUrls.length === 1 ? '650rpx' : '220rpx'}}" height="{{item.imageUrls.length === 1 ? '400rpx' : '220rpx'}}" fit="cover" src="{{img}}" radius="8rpx" lazy-load />
+          </view>
+          <!-- 活动信息 -->
+          <view class="activity-meta">
+            <view class="activity-start-time">
+              <van-tag text-color="#1976D2" color="#BBDEFB" size="large" round>
+                <van-icon name="underway-o" size="14px" />
+                <text>开始时间: {{item.startTime}}</text>
+              </van-tag>
+            </view>
+            <view class="activity-location" wx:if="{{item.spotName}}">
+              <van-icon name="location-o" size="14px" />
+              <text>钓点: {{item.spotName}}</text>
+            </view>
+          </view>
+          <!-- 用户信息区域 -->
+          <view class="activity-header">
+            <view class="user-avatar" bindtap="goToUserProfile" data-user-id="{{item.userId}}" catchtap="goToUserProfile">
+              <van-image round width="40px" height="40px" src="{{item.organizerAvatar}}" fit="cover" />
+            </view>
+            <view class="activity-info">
+              <view class="activity-organizer">{{item.organizerName}}</view>
+              <view class="activity-time">{{item.formattedTime || item.createdAt}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

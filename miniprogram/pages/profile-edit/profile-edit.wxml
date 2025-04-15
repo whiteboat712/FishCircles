@@ -1,0 +1,27 @@
+<!-- pages/profile-edit/profile-edit.wxml -->
+<view class="profile-edit-container">
+  <!-- 用户头像 -->
+  <view class="avatar-section">
+    <view class="avatar-container" bindtap="chooseAvatar">
+      <van-image round width="80px" height="80px" src="{{userAvatar}}" fit="cover" />
+      <view class="avatar-edit-text">点击修改头像</view>
+    </view>
+  </view>
+  <!-- 用户详细信息 -->
+  <van-cell-group title="基本信息" inset>
+    <van-cell title="用户名" value="{{user.username}}" />
+    <van-cell title="昵称" value="{{user.nickname}}" is-link bind:tap="editNickname" />
+    <van-cell title="地区" value="{{user.region}}" is-link bind:tap="editRegion" />
+    <van-cell title="经验等级" value="{{user.experienceLevel === 'BEGINNER' ? '新手' : (user.experienceLevel === 'INTERMEDIATE' ? '进阶' : '专业')}}" is-link bind:tap="editExperienceLevel" />
+    <van-cell title="注册时间" value="{{formattedDate}}" />
+  </van-cell-group>
+  <!-- 操作按钮 -->
+  <view class="action-buttons">
+    <van-button type="info" size="large" custom-class="action-btn" bind:tap="saveUserInfo">
+      保存修改
+    </van-button>
+    <van-button type="default" size="large" custom-class="action-btn back-btn" bind:tap="goToProfile">
+      返回个人信息
+    </van-button>
+  </view>
+</view>

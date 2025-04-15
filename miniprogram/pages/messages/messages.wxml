@@ -1,0 +1,116 @@
+<!-- pages/messages/messages.wxml -->
+<view class="container">
+  <!-- 消息类型区域 -->
+  <view class="message-types">
+    <view class="message-type {{popupType === 'likes' ? 'active' : ''}}" bindtap="switchType" data-type="likes">
+      <van-icon name="good-job-o" size="24px" />
+      <text>点赞</text>
+    </view>
+    <view class="message-type {{popupType === 'reviews' ? 'active' : ''}}" bindtap="switchType" data-type="reviews">
+      <van-icon name="comment-o" size="24px" />
+      <text>回复</text>
+    </view>
+  </view>
+  <!-- 弹出层 -->
+  <van-popup show="{{showPopup}}" position="bottom" custom-style="height: 70%;" bind:close="closePopup" round>
+    <view class="popup-container">
+      <view class="popup-header">
+        <text class="popup-title">{{popupType === 'likes' ? '点赞' : '回复'}}消息</text>
+        <van-icon name="cross" size="20px" bindtap="closePopup" class="close-icon" />
+      </view>
+      <!-- 点赞消息列表 -->
+      <view class="popup-content" wx:if="{{popupType === 'likes'}}">
+        <view class="loading-container" wx:if="{{loading}}">
+          <van-loading size="24px" vertical>加载中...</van-loading>
+        </view>
+        <block wx:elif="{{likeMessages.length > 0}}">
+          <view class="message-card" wx:for="{{likeMessages}}" wx:key="id" bindtap="goToDetail" data-type="like" data-id="{{item.id}}">
+            <view class="message-card-header">
+              <view class="user-info">
+                <view class="avatar" catch:tap="goToUserProfile" data-user-id="{{item.userId}}">
+                  <van-image round width="40px" height="40px" src="{{item.userAvatar}}" fit="cover" />
+                </view>
+                <view class="user-name-time">
+                  <text class="username">{{item.userName}}</text>
+                  <text class="time">{{item.formattedTime}}</text>
+                </view>
+              </view>
+            </view>
+            <view class="message-card-content">
+              <view class="message-brief">赞了你的{{item.contentType || '帖子'}}</view>
+              <view class="quoted-content" wx:if="{{item.quotedContent}}">
+                <text class="quoted-text">@{{item.quotedUserName || ''}}</text>
+                <text class="review-text">{{item.quotedContent}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+        <view class="empty-container" wx:else>
+          <van-empty description="暂无点赞消息" />
+        </view>
+      </view>
+      <!-- 评论消息列表 -->
+      <view class="popup-content" wx:if="{{popupType === 'reviews'}}">
+        <view class="loading-container" wx:if="{{loading}}">
+          <van-loading size="24px" vertical>加载中...</van-loading>
+        </view>
+        <block wx:elif="{{reviewMessages.length > 0}}">
+          <view class="message-card" wx:for="{{reviewMessages}}" wx:key="id" bindtap="goToDetail" data-type="review" data-id="{{item.id}}">
+            <view class="message-card-header">
+              <view class="user-info">
+                <view class="avatar" catch:tap="goToUserProfile" data-user-id="{{item.userId}}">
+                  <van-image round width="40px" height="40px" src="{{item.userAvatar}}" fit="cover" />
+                </view>
+                <view class="user-name-time">
+                  <text class="username">{{item.userName}}</text>
+                  <text class="time">{{item.formattedTime}}</text>
+                </view>
+              </view>
+            </view>
+            <view class="message-card-content">
+              <view class="message-brief">评论了你的{{item.contentType || '回复'}}</view>
+              <view class="message-brief">{{ item.quotedContent }}</view>
+              <view class="quoted-content">
+                <text class="quoted-text">@{{item.quotedUserName || ''}}</text>
+                <text class="review-text">{{item.content}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+        <view class="empty-container" wx:else>
+          <van-empty description="暂无回复消息" />
+        </view>
+      </view>
+    </view>
+  </van-popup>
+  <!-- 私信区域 -->
+  <view class="chat-section">
+    <view class="section-title">私信</view>
+    <view class="loading-container" wx:if="{{loading}}">
+      <van-loading size="24px" vertical>加载中...</van-loading>
+    </view>
+    <block wx:elif="{{chatMessages.length > 0}}">
+      <van-swipe-cell wx:for="{{chatMessages}}" wx:key="contactId" right-width="{{ 65 }}">
+        <view class="chat-item" bindtap="goToChat" data-contact-id="{{item.contactId}}">
+          <view class="avatar" catch:tap="goToUserProfile" data-user-id="{{item.contactId}}">
+            <van-image round width="40px" height="40px" src="{{item.userAvatar}}" fit="cover" />
+            <view class="unread-badge" wx:if="{{item.unreadCount > 0}}">{{item.unreadCount}}</view>
+          </view>
+          <view class="chat-info">
+            <view class="chat-header">
+              <text class="username">{{item.userName}}</text>
+              <text class="time">{{item.formattedTime}}</text>
+            </view>
+            <view class="chat-brief">{{item.lastMessage}}</view>
+          </view>
+        </view>
+        <view slot="right" class="delete-btn" catch:tap="deleteChat" data-contact-id="{{item.contactId}}">
+          删除
+        </view>
+      </van-swipe-cell>
+    </block>
+    <view class="empty-container" wx:else>
+      <van-empty description="暂无私信消息" />
+    </view>
+  </view>
+</view>

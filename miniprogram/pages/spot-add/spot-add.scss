@@ -1,0 +1,187 @@
+/* pages/spot-add/spot-add.scss */
+.container {
+  padding: 30rpx 0;
+  animation: fadeIn 0.5s ease-in-out;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
+
+.spot-card {
+  margin: 20rpx 30rpx;
+  border-radius: 16rpx !important;
+  overflow: hidden;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.spot-header {
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.spot-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  position: relative;
+  padding-left: 20rpx;
+}
+
+.spot-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8rpx;
+  height: 32rpx;
+  background-color: #1989fa;
+  border-radius: 4rpx;
+}
+
+.field-item {
+  padding: 20rpx 0;
+}
+
+.option-cell {
+  transition: background-color 0.3s ease;
+}
+
+.option-cell:active {
+  background-color: #f9f9f9;
+}
+
+.radio-option {
+  margin-right: 30rpx;
+}
+
+.upload-container {
+  padding: 30rpx;
+  transition: all 0.3s ease;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.upload-title {
+  display: block;
+  margin-bottom: 20rpx;
+  font-size: 28rpx;
+  color: #646566;
+}
+
+.submit-btn-container {
+  padding: 40rpx 30rpx 60rpx;
+  transition: transform 0.3s ease;
+}
+
+.submit-btn {
+  height: 88rpx !important;
+  font-size: 32rpx !important;
+  letter-spacing: 2rpx;
+  transition: all 0.3s ease;
+  box-shadow: 0 6rpx 16rpx rgba(25, 137, 250, 0.2);
+}
+
+.submit-btn.van-button--active {
+  transform: translateY(2rpx);
+  box-shadow: 0 2rpx 8rpx rgba(25, 137, 250, 0.2);
+}
+
+/* 图片上传区域动画 */
+.van-uploader__upload {
+  transition: all 0.3s ease;
+  border-radius: 8rpx !important;
+}
+
+.van-uploader__upload:active {
+  transform: scale(0.95);
+  background-color: #f5f5f5;
+}
+
+.van-uploader__preview {
+  margin-right: 16rpx !important;
+  margin-bottom: 16rpx !important;
+}
+
+.van-uploader__preview-image {
+  border-radius: 8rpx !important;
+  overflow: hidden;
+}
+
+/* 地图弹窗样式 */
+.map-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.map {
+  flex: 1;
+  width: 100%;
+}
+
+.popup-title {
+  padding: 30rpx;
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.popup-footer {
+  display: flex;
+  padding: 20rpx;
+  border-top: 1px solid #f5f5f5;
+}
+
+.popup-btn {
+  flex: 1;
+  margin: 0 10rpx;
+}
+
+/* 鱼类选择样式 */
+.species-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.species-list {
+  flex: 1;
+  padding: 20rpx;
+  overflow-y: auto;
+}
+
+.species-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.species-item.selected {
+  background-color: #e8f6ff;
+  border: 2rpx solid #1989fa;
+  border-radius: 8rpx;
+  font-weight: 500;
+  transform: translateX(4rpx);
+  box-shadow: 0 2rpx 12rpx rgba(25, 137, 250, 0.15);
+}
+
+.no-species {
+  padding: 40rpx 0;
+  text-align: center;
+  color: #999;
+}
+
+/* 淡入动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

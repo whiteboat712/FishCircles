@@ -1,0 +1,61 @@
+<!-- pages/spots-list/spots-list.wxml -->
+<view class="container">
+  <!-- 筛选区域 -->
+  <van-tabs active="{{ activeFilter }}" bind:change="onTabChange" sticky animated swipeable custom-class="filter-tabs">
+    <van-tab title="全部" name="all"></van-tab>
+    <van-tab title="附近" name="nearby"></van-tab>
+    <van-tab title="热门" name="popular"></van-tab>
+    <van-tab title="免费" name="free"></van-tab>
+  </van-tabs>
+  <!-- 下拉刷新区域 -->
+  <scroll-view class="spots-list" scroll-y="true" enable-flex refresher-triggered="{{refreshing}}" bindscrolltolower="onLoadMore">
+    <view wx:if="{{loading && !refreshing}}" class="loading-container">
+      <van-loading size="24px" vertical>加载中...</van-loading>
+    </view>
+    <block wx:if="{{fishingSpots.length > 0}}">
+      <view class="spots-item" wx:for="{{fishingSpots}}" wx:key="spotId" data-id="{{item.spotId}}">
+        <view class="spot-card" bindtap="viewSpotDetail" data-id="{{item.spotId}}" style="animation-delay: {{index * 0.1}}s">
+          <view class="spot-image-container">
+            <van-image class="spot-image" src="{{item.imageUrls[0]}}" fit="cover" lazy-load radius="8rpx" width="100%" height="300rpx" />
+            <view class="spot-distance" wx:if="{{item.distance}}">{{item.distance}}km</view>
+          </view>
+          <view class="spot-content">
+            <view class="spot-header">
+              <text class="spot-name">{{item.name}}</text>
+            </view>
+            <view class="spot-price">{{item.price}}</view>
+            <view class="spot-desc">{{item.description}}</view>
+            <view class="spot-tags">
+              <van-tag plain type="primary" wx:if="{{item.distance < 5}}" custom-class="spot-tag">
+                附近
+              </van-tag>
+              <van-tag plain type="success" wx:if="{{item.rating >= 4.5}}" custom-class="spot-tag">
+                推荐
+              </van-tag>
+              <van-tag plain type="warning" wx:if="{{item.price === '免费'}}" custom-class="spot-tag">
+                免费
+              </van-tag>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <view wx:if="{{!loading && fishingSpots.length === 0}}" class="empty-container">
+      <van-empty description="暂无钓点数据" />
+    </view>
+    <view wx:if="{{hasMore && fishingSpots.length > 0}}" class="load-more">
+      <text>加载更多...</text>
+    </view>
+    <view wx:if="{{!hasMore && fishingSpots.length > 0}}" class="no-more">
+      <text>没有更多数据了</text>
+    </view>
+  </scroll-view>
+  <!-- 悬浮按钮 -->
+  <view class="floating-btn add-btn" bindtap="goToAdd" hover-class="button-hover">
+    <van-icon name="plus" size="24px" color="#fff" />
+  </view>
+  <!-- 搜索活动按钮 -->
+  <view class="floating-btn search-btn" bindtap="goToSearch" hover-class="button-hover">
+    <van-icon name="search" size="24px" color="#fff" />
+  </view>
+</view>

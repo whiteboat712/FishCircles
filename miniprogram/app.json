@@ -1,0 +1,77 @@
+{
+  "entryPagePath": "pages/posts/posts",
+  "pages": [
+    "pages/posts/posts",
+    "pages/post-detail/post-detail",
+    "pages/post-publish/post-publish",
+    "pages/spots/spots",
+    "pages/activities/activities",
+    "pages/messages/messages",
+    "pages/profile/profile",
+    "pages/login/login",
+    "pages/settings/settings",
+    "pages/profile-edit/profile-edit",
+    "pages/activity-detail/activity-detail",
+    "pages/search/search",
+    "pages/index/index",
+    "pages/activity-publish/activity-publish",
+    "pages/spots-list/spots-list",
+    "pages/chat/chat",
+    "pages/spot-add/spot-add",
+    "pages/profile-other/profile-other",
+    "pages/spot-detail/spot-detail",
+    "pages/about/about"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "渔友圈",
+    "navigationBarBackgroundColor": "#ffffff"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1296db",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/posts/posts",
+        "text": "动态",
+        "iconPath": "assets/tabbar/news.png",
+        "selectedIconPath": "assets/tabbar/news_fill.png"
+      },
+      {
+        "pagePath": "pages/spots/spots",
+        "text": "钓点",
+        "iconPath": "assets/tabbar/location.png",
+        "selectedIconPath": "assets/tabbar/location_fill.png"
+      },
+      {
+        "pagePath": "pages/activities/activities",
+        "text": "活动",
+        "iconPath": "assets/tabbar/activity.png",
+        "selectedIconPath": "assets/tabbar/activity_fill.png"
+      },
+      {
+        "pagePath": "pages/messages/messages",
+        "text": "消息",
+        "iconPath": "assets/tabbar/message.png",
+        "selectedIconPath": "assets/tabbar/message_fill.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "assets/tabbar/my.png",
+        "selectedIconPath": "assets/tabbar/my_fill.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "requiredPrivateInfos": [
+    "getLocation"
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "您的位置信息将用于查找附近的钓点和钓友"
+    }
+  }
+}

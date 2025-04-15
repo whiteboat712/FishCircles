@@ -1,0 +1,141 @@
+<!-- pages/activity-detail/activity-detail.wxml -->
+<view class="container">
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <van-loading size="24px" vertical>加载中...</van-loading>
+  </view>
+  <!-- 活动详情 -->
+  <block wx:elif="{{activity}}">
+    <view class="activity-detail-container">
+      <view class="activity-card">
+        <!-- 用户信息 -->
+        <view class="activity-header">
+          <view class="user-avatar" bindtap="goToUserProfile" data-user-id="{{activity.organizer.userId}}">
+            <van-image round width="40px" height="40px" src="{{activity.organizerAvatar}}" fit="cover" />
+          </view>
+          <view class="activity-info">
+            <view class="activity-organizer">{{activity.organizerName}}</view>
+            <view class="activity-time">{{activity.formattedTime || activity.createdAt}}</view>
+          </view>
+        </view>
+        <!-- 活动标题 -->
+        <view class="activity-title">{{activity.title}}</view>
+        <!-- 活动内容 -->
+        <view class="activity-content">{{activity.description}}</view>
+        <!-- 图片展示 -->
+        <view class="activity-images" wx:if="{{activity.imageUrls.length > 0}}">
+          <swiper class="swiper-container" indicator-dots="{{true}}" autoplay="{{true}}" interval="{{3000}}" duration="{{500}}" circular="{{true}}" indicator-active-color="#1989fa">
+            <swiper-item wx:for="{{activity.imageUrls}}" wx:key="index">
+              <van-image width="100%" height="200px" fit="cover" src="{{item}}" radius="4" bind:click="previewImage" data-current="{{item}}" />
+            </swiper-item>
+          </swiper>
+        </view>
+        <!-- 活动信息 -->
+        <view class="activity-meta">
+          <view class="meta-item">
+            <van-icon name="underway-o" size="16px" color="#1989fa" />
+            <text class="meta-label">开始时间:</text>
+            <text class="meta-value">{{activity.formattedStartTime}}</text>
+          </view>
+          <view class="meta-item" wx:if="{{activity.spot}}">
+            <van-icon name="location-o" size="16px" color="#1989fa" />
+            <text class="meta-label">钓点:</text>
+            <text class="meta-value">{{activity.spot.name}}</text>
+          </view>
+          <view class="meta-item">
+            <van-icon name="friends-o" size="16px" color="#1989fa" />
+            <text class="meta-label">组织者:</text>
+            <text class="meta-value">{{activity.organizerName}}</text>
+          </view>
+        </view>
+        <!-- 操作栏 -->
+        <view class="activity-actions">
+          <view class="action-item {{isLiked ? 'liked' : ''}}" bindtap="handleLike">
+            <van-icon name="{{ isLiked ? 'good-job' : 'good-job-o' }}" size="20px" color="{{ isLiked ? '#ff2c54' : '' }}" />
+            <text>{{ likeCount < 1 ? '点赞' : likeCount }}</text>
+          </view>
+          <view class="action-item" bind:tap="openReviewInput">
+            <van-icon name="comment-o" size="20px" />
+            <text>{{reviews.length || 0}}</text>
+          </view>
+          <view class="action-item">
+            <button class="share-btn" open-type="share">
+              <van-icon name="share-o" size="20px" />
+              <text>分享</text>
+            </button>
+          </view>
+        </view>
+      </view>
+      <!-- 参与者列表 -->
+      <view class="participants-section" wx:if="{{participants.length > 0}}">
+        <view class="section-title">参与者 ({{participants.length}}人)</view>
+        <view class="participant-list">
+          <view class="participant-item" wx:for="{{participants}}" wx:key="userId" bindtap="goToUserProfile" data-user-id="{{item.userId}}">
+            <van-image round width="60rpx" height="60rpx" src="{{item.userAvatar}}" fit="cover" />
+            <view class="participant-name">{{item.userName}}</view>
+          </view>
+        </view>
+      </view>
+      <!-- 参与按钮 -->
+      <view class="join-section">
+        <button class="join-button" hover-class="join-button-hover" bind:tap="joinActivity">
+          <van-icon name="friends-o" size="20px" color="#ffffff" />
+          <text>参加活动</text>
+        </button>
+      </view>
+      <!-- 评论列表 -->
+      <view class="review-section">
+        <view class="section-title">共 {{reviews.length || 0}} 条评论</view>
+        <!-- 评论加载中 -->
+        <view class="loading-container" wx:if="{{reviewLoading}}">
+          <van-loading size="24px">加载中...</van-loading>
+        </view>
+        <!-- 无评论展示 -->
+        <van-empty wx:elif="{{!reviews.length}}" description="暂无评论" />
+        <!-- 评论列表 -->
+        <view class="review-list" wx:else>
+          <view class="review-item" wx:for="{{reviews}}" wx:key="reviewId">
+            <view class="review-header">
+              <view class="review-avatar" bindtap="goToUserProfile" data-user-id="{{item.user.userId}}">
+                <van-image round width="32px" height="32px" src="{{item.userAvatar}}" fit="cover" />
+              </view>
+              <view class="review-info">
+                <view class="review-user">{{item.userName}}</view>
+                <view class="review-time">{{item.formattedTime || item.createdAt}}</view>
+              </view>
+            </view>
+            <view class="review-content">{{item.content}}</view>
+            <!-- 评论图片展示 -->
+            <view class="review-images" wx:if="{{item.imageUrls.length > 0}}">
+              <view class="image-grid">
+                <van-image wx:for="{{item.imageUrls}}" wx:for-item="imgUrl" wx:key="index" width="80px" height="80px" fit="cover" src="{{imgUrl}}" radius="4" bind:click="previewReviewImage" data-urls="{{item.imageUrls}}" data-current="{{imgUrl}}" />
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- 评论输入框 (固定在底部) -->
+      <view class="review-input-container">
+        <view class="review-button" bind:tap="openReviewInput">
+          <van-icon name="edit" size="36rpx" />
+          <text>说说你的看法</text>
+        </view>
+        <van-button type="primary" icon="{{isLiked ? 'good-job' : 'good-job-o'}}" size="small" plain="{{!isLiked}}" color="{{isLiked ? '#ff2c54' : '#999'}}" round bind:click="handleLike">
+          {{ likeCount }}
+        </van-button>
+        <van-button type="primary" icon="share-o" size="small" color="#999" round plain open-type="share"></van-button>
+      </view>
+      <!-- 评论弹出框 -->
+      <van-popup show="{{ showReviewInput }}" bind:close="onCloseReviewInput" position="bottom" round>
+        <view class="review-input-header">
+          <text class="review-input-title">评论</text>
+          <van-button color="#1989fa" size="small" round plain bind:click="submitReview" loading="{{submitting}}">
+            发布
+          </van-button>
+        </view>
+        <van-field model:value="{{ reviewContent }}" type="textarea" custom-class="review-input" placeholder="写评论..." bind:change="onReviewInput" autosize="{ maxHeight: 100, minHeight: 50 }" maxlength="200" show-word-limit />
+        <van-uploader upload-text="添加图片" file-list="{{ imageList }}" bind:after-read="afterRead" deletable="{{ true }}" />
+      </van-popup>
+    </view>
+  </block>
+</view>

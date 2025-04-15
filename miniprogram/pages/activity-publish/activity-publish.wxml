@@ -1,0 +1,58 @@
+<!-- pages/activity-publish/activity-publish.wxml -->
+<view class="container">
+  <van-cell-group custom-class="activity-card">
+    <!-- 标题区域 -->
+    <view class="activity-header">
+      <text class="activity-title">发布活动</text>
+    </view>
+    <!-- 活动标题输入 -->
+    <van-field model:value="{{title}}" label="活动标题" placeholder="请输入活动标题" border="{{ false }}" maxlength="50" show-word-limit required bind:change="onTitleChange" custom-class="field-item" />
+    <!-- 活动描述输入 -->
+    <van-field model:value="{{description}}" type="textarea" label="活动描述" placeholder="请描述活动内容..." autosize="{{ { maxHeight: 150, minHeight: 80 } }}" border="{{ false }}" maxlength="500" show-word-limit bind:change="onDescriptionChange" custom-class="field-item" />
+    <!-- 活动时间选择 -->
+    <van-cell icon="clock-o" title="开始时间" value="{{startTime || '请选择'}}" is-link bind:click="showStartTimePicker" required custom-class="option-cell"></van-cell>
+    <!-- 活动地点选择 -->
+    <van-cell icon="location-o" title="活动地点" value="{{locationName || '请选择'}}" is-link bind:click="showSpotPicker" required custom-class="option-cell"></van-cell>
+    <!-- 图片上传区域 -->
+    <view class="upload-container">
+      <view class="section-header">
+        <text class="section-title">活动图片</text>
+      </view>
+      <van-uploader file-list="{{ imageList }}" max-count="9" bind:after-read="afterRead" bind:delete="onDelete" image-fit="aspectFill" upload-text="上传图片" custom-class="image-uploader" />
+    </view>
+  </van-cell-group>
+  <!-- 发布按钮 -->
+  <view class="publish-btn-container">
+    <van-button type="primary" block round loading="{{submitting}}" disabled="{{!title || !startTime || !spotId}}" bind:click="publishActivity" custom-class="publish-btn">
+      发布活动
+    </van-button>
+  </view>
+  <!-- 时间选择器 -->
+  <van-popup show="{{ showStartPicker }}" position="bottom" bind:close="closeStartTimePicker" round>
+    <van-datetime-picker type="datetime" value="{{ currentDate }}" min-date="{{ minDate }}" bind:confirm="onStartTimeConfirm" bind:cancel="closeStartTimePicker" title="选择开始时间" />
+  </van-popup>
+  <!-- 钓点选择器 -->
+  <van-popup show="{{ showSpotPicker }}" position="bottom" bind:close="closeSpotPicker" round>
+    <view class="spot-picker-container">
+      <view class="spot-picker-header">
+        <text class="spot-picker-title">选择钓点</text>
+        <van-icon name="cross" size="20px" bind:click="closeSpotPicker" class="close-icon" />
+      </view>
+      <scroll-view scroll-y class="spot-list-container">
+        <block wx:if="{{spotsList.length > 0}}">
+          <view wx:for="{{spotsList}}" wx:key="spotId" class="spot-item" data-spot-id="{{item.spotId}}" bind:tap="onSpotSelect">
+            <view class="spot-info">
+              <text class="spot-name">{{item.name}}</text>
+              <text class="spot-desc">{{item.description || '暂无描述'}}</text>
+            </view>
+            <van-icon name="success" color="#1989fa" size="18px" wx:if="{{spotId === item.spotId}}" />
+          </view>
+        </block>
+        <view wx:else class="empty-spots">
+          <text>暂无钓点数据</text>
+        </view>
+      </scroll-view>
+    </view>
+  </van-popup>
+  <van-toast id="van-toast" />
+</view>

@@ -1,0 +1,153 @@
+/* pages/post-publish/post-publish.scss */
+.container {
+  padding: 30rpx 0;
+  animation: fadeIn 0.5s ease-in-out;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
+
+.post-card {
+  margin: 20rpx 30rpx;
+  border-radius: 16rpx !important;
+  overflow: hidden;
+  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.post-header {
+  padding: 30rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.post-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+  position: relative;
+  padding-left: 20rpx;
+}
+
+.post-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8rpx;
+  height: 32rpx;
+  background-color: #1989fa;
+  border-radius: 4rpx;
+}
+
+.upload-container {
+  padding: 30rpx;
+  transition: all 0.3s ease;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+
+.content-field {
+  padding: 20rpx 0;
+}
+
+.option-cell {
+  transition: background-color 0.3s ease;
+}
+
+.option-cell:active {
+  background-color: #f9f9f9;
+}
+
+.radio-option {
+  margin-right: 30rpx;
+}
+
+.publish-btn-container {
+  padding: 40rpx 30rpx 60rpx;
+  transition: transform 0.3s ease;
+}
+
+.publish-btn {
+  height: 88rpx !important;
+  font-size: 32rpx !important;
+  letter-spacing: 2rpx;
+  transition: all 0.3s ease;
+  box-shadow: 0 6rpx 16rpx rgba(25, 137, 250, 0.2);
+}
+
+.publish-btn.van-button--active {
+  transform: translateY(2rpx);
+  box-shadow: 0 2rpx 8rpx rgba(25, 137, 250, 0.2);
+}
+
+/* 图片上传区域动画 */
+.van-uploader__upload {
+  transition: all 0.3s ease;
+  border-radius: 8rpx !important;
+}
+
+.van-uploader__upload:active {
+  transform: scale(0.95);
+  background-color: #f5f5f5;
+}
+
+.van-uploader__preview {
+  margin-right: 16rpx !important;
+  margin-bottom: 16rpx !important;
+}
+
+.van-uploader__preview-image {
+  border-radius: 8rpx !important;
+  overflow: hidden;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.van-uploader__preview-image:active {
+  transform: scale(0.98);
+}
+
+/* 添加淡入动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 添加内容区域的样式 */
+.van-field__body {
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+  border-radius: 8rpx;
+  padding: 10rpx;
+}
+
+.van-field__body--focus {
+  background-color: rgba(25, 137, 250, 0.05);
+  box-shadow: 0 0 0 2rpx rgba(25, 137, 250, 0.1);
+}
+
+/* 开关动画效果 */
+.van-switch {
+  transition: all 0.3s ease;
+}
+
+.van-switch__node {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 3rpx 6rpx rgba(0, 0, 0, 0.1);
+}
+
+/* 单选按钮动画 */
+.van-radio__icon {
+  transition: all 0.2s ease;
+}
+
+.van-radio__icon--checked {
+  transform: scale(1.1);
+  box-shadow: 0 0 0 4rpx rgba(25, 137, 250, 0.1);
+  border-radius: 50%;
+}

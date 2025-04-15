@@ -1,0 +1,45 @@
+/* pages/settings/settings.wxss */
+.settings-container {
+  padding: 20rpx;
+  min-height: 100vh;
+  background-color: #f7f8fa;
+}
+
+.not-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 200rpx;
+}
+
+.login-icon {
+  margin-bottom: 30rpx;
+}
+
+.login-text {
+  font-size: 32rpx;
+  color: #666;
+  margin-bottom: 40rpx;
+}
+
+.login-btn {
+  width: 300rpx !important;
+}
+
+.setting-group {
+  margin-bottom: 20rpx;
+}
+
+.action-buttons {
+  padding: 40rpx 20rpx;
+}
+
+.action-btn {
+  margin-bottom: 20rpx !important;
+}
+
+.logout-btn {
+  border: 1px solid #1296db !important;
+  color: #1296db !important;
+}

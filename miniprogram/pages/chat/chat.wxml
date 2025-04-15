@@ -1,0 +1,76 @@
+<!-- pages/chat/chat.wxml -->
+<view class="chat-container">
+  <!-- 聊天头部 -->
+  <view class="chat-header">
+    <view class="user-info">
+      <image class="avatar" src="{{targetUser.avatar}}" mode="aspectFill"></image>
+      <text class="username">{{targetUser.nickname || '渔友'}}</text>
+    </view>
+  </view>
+  <!-- 聊天内容区域 -->
+  <scroll-view class="message-list" scroll-y scroll-into-view="{{scrollToMessage}}" scroll-with-animation bindscrolltoupper="loadMoreMessages">
+    <!-- 加载更多提示 -->
+    <view class="loading-more" wx:if="{{isLoading}}">
+      <van-loading size="24px" color="#1989fa">加载更多...</van-loading>
+    </view>
+    <!-- 消息列表 -->
+    <block wx:for="{{messages}}" wx:key="messageId">
+      <view class="message-item">
+        <!-- 时间分割线 -->
+        <view class="time-divider" wx:if="{{item.showTimeHeader}}">
+          <text>{{item.timeHeader}}</text>
+        </view>
+        <view class="message-body {{item.senderId === currentUser.userId ? 'message-mine' : 'message-other'}}">
+          <!-- 对方头像 -->
+          <image class="message-avatar" src="{{item.senderId !== currentUser.userId ? targetUser.avatar : currentUser.avatar}}" mode="aspectFill"></image>
+          <!-- 消息气泡 -->
+          <view class="message-content {{item.senderId === currentUser.userId ? 'message-content-mine' : 'message-content-other'}}">
+            <!-- 文本消息 -->
+            <text class="message-text">{{item.content}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+    <!-- 底部占位，确保新消息可见 -->
+    <view id="message-bottom" style="height: 20rpx;"></view>
+  </scroll-view>
+  <!-- 输入区域 -->
+  <view class="input-area">
+    <view class="input-toolbar">
+      <input class="message-input" value="{{inputMessage}}" bindinput="onInputChange" bindfocus="onInputFocus" placeholder="输入消息..." confirm-type="send" bindconfirm="sendTextMessage" adjust-position="{{false}}" cursor-spacing="20" />
+      <!-- 表情按钮 -->
+      <view class="toolbar-item" bindtap="toggleEmojiPanel">
+        <van-icon name="smile-o" size="50rpx" />
+      </view>
+      <!-- 更多功能按钮 -->
+      <view class="toolbar-item" bindtap="toggleMorePanel">
+        <van-icon name="add-o" size="50rpx" />
+      </view>
+    </view>
+    <!-- 表情面板 -->
+    <view class="emoji-panel" wx:if="{{showEmojiPanel}}">
+      <scroll-view scroll-y class="emoji-list">
+        <view class="emoji-grid">
+          <view class="emoji-item" wx:for="{{emojiList}}" wx:key="index" bindtap="selectEmoji" data-emoji="{{item}}">
+            {{item}}
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+    <!-- 更多功能面板 -->
+    <view class="more-panel" wx:if="{{showMorePanel}}">
+      <view class="more-item" bindtap="chooseImage">
+        <view class="more-icon">
+          <van-icon name="photo-o" size="60rpx" />
+        </view>
+        <text>图片</text>
+      </view>
+      <view class="more-item" bindtap="chooseLocation">
+        <view class="more-icon">
+          <van-icon name="location-o" size="60rpx" />
+        </view>
+        <text>位置</text>
+      </view>
+    </view>
+  </view>
+</view>

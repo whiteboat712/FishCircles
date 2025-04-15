@@ -1,0 +1,47 @@
+<!-- pages/about/about.wxml -->
+<view class="about-container">
+  <!-- 应用LOGO部分 -->
+  <view class="logo-section">
+    <view class="logo-container" id="logo-container">
+      <image class="logo-image" src="/assets/images/default_avatar.jpg" mode="aspectFill"></image>
+    </view>
+    <view class="app-name">钓鱼圈</view>
+    <view class="app-version">版本 1.0.0</view>
+  </view>
+  <!-- 应用介绍部分 -->
+  <view class="about-content">
+    <view class="about-title">关于钓鱼圈</view>
+    <view class="about-text">钓鱼圈是一款专为钓鱼爱好者打造的社交平台，让您可以分享钓鱼体验、探索钓点、参与活动，与志同道合的钓友交流互动。</view>
+    <view class="feature-list">
+      <view class="feature-item">
+        <van-icon name="friends-o" size="24px" color="#1296db" />
+        <text>社交互动</text>
+      </view>
+      <view class="feature-item">
+        <van-icon name="location-o" size="24px" color="#1296db" />
+        <text>钓点分享</text>
+      </view>
+      <view class="feature-item">
+        <van-icon name="calendar-o" size="24px" color="#1296db" />
+        <text>活动组织</text>
+      </view>
+      <view class="feature-item">
+        <van-icon name="photo-o" size="24px" color="#1296db" />
+        <text>钓获展示</text>
+      </view>
+    </view>
+  </view>
+  <!-- 联系我们部分 -->
+  <view class="contact-section">
+    <view class="contact-title">联系我们</view>
+    <view class="contact-item">
+      <van-icon name="envelop-o" size="18px" color="#666" />
+      <text>邮箱: support@fishingcircles.com</text>
+    </view>
+    <view class="contact-item">
+      <van-icon name="phone-o" size="18px" color="#666" />
+      <text>电话: 400-123-4567</text>
+    </view>
+  </view>
+  <view class="copyright">© 2025 钓鱼圈 版权所有</view>
+</view>

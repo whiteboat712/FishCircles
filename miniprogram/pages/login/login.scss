@@ -1,0 +1,82 @@
+/* pages/login/login.wxss */
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 30rpx;
+  box-sizing: border-box;
+  background-color: #f7f8fa;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 60rpx 0;
+}
+
+.app-name {
+  margin-top: 20rpx;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+.login-form-container {
+  padding: 36rpx;
+  background-color: #fff;
+  border-radius: 36rpx;
+  transition: all 0.3s ease;
+}
+.login-form {
+  padding: 20rpx 0;
+}
+
+.wechat-login-tip {
+  text-align: center;
+  margin-bottom: 40rpx;
+  color: #666;
+  font-size: 28rpx;
+}
+
+.wechat-btn {
+  margin-top: 40rpx;
+}
+
+.login-btn,
+.register-btn {
+  margin-top: 40rpx;
+}
+
+.login-options {
+  display: flex;
+  justify-content: flex-end;
+  margin: 20rpx 0;
+}
+
+.forgot-password {
+  font-size: 26rpx;
+  color: #1989fa;
+}
+
+.agreement-container {
+  margin-top: auto;
+  padding: 30rpx 0;
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+}
+
+.agreement-link {
+  color: #1989fa;
+}
+
+/* 自定义Vant组件样式 */
+.van-tabs__line {
+  background-color: #1989fa !important;
+}
+
+.van-tab--active {
+  color: #1989fa !important;
+  font-weight: bold;
+}

@@ -1,0 +1,365 @@
+/* pages/spot-detail/spot-detail.wxss */
+.container {
+  padding-bottom: 100rpx;
+  background-color: #f2f2f4;
+}
+
+.spot-detail-container {
+  padding: 24rpx;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 40rpx 0;
+}
+
+.spot-card {
+  background-color: #fff;
+  padding: 36rpx;
+  box-shadow: 0 20rpx 20rpx rgba(0, 0, 0, 0.05);
+  border-radius: 24rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.spot-title {
+  font-size: 38rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+  line-height: 1.4;
+  position: relative;
+  padding-left: 20rpx;
+}
+
+.spot-title::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8rpx;
+  height: 36rpx;
+  width: 8rpx;
+  background: linear-gradient(to bottom, #1989fa, #39b9fa);
+  border-radius: 4rpx;
+}
+
+.spot-content {
+  font-size: 30rpx;
+  color: #333;
+  line-height: 1.7;
+  margin-bottom: 24rpx;
+  word-break: break-all;
+  padding: 0 10rpx;
+  text-align: justify;
+}
+
+.spot-images {
+  margin-bottom: 30rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.swiper-container {
+  width: 100%;
+  height: 200px;
+  border-radius: 12rpx;
+}
+
+.swiper-container .wx-swiper-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 4rpx;
+  margin-left: 8rpx;
+  margin-right: 8rpx;
+}
+
+.swiper-container .wx-swiper-dot-active {
+  width: 16rpx;
+}
+
+.spot-meta {
+  background-color: #f9f9f9;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin: 30rpx 0;
+  box-shadow: inset 0 0 10rpx rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.meta-item:last-child {
+  margin-bottom: 0;
+}
+
+.meta-label {
+  font-size: 28rpx;
+  color: #666;
+  margin: 0 12rpx;
+}
+
+.meta-value {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.spot-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30rpx;
+  padding-top: 24rpx;
+  border-top: 1px solid #eee;
+  position: relative;
+}
+
+.spot-actions::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 6rpx;
+  background: linear-gradient(to right, transparent, #f5f5f5, transparent);
+  border-radius: 3rpx;
+}
+
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 24rpx;
+  color: #666;
+  background: none;
+  border: none;
+  padding: 12rpx 24rpx;
+  line-height: normal;
+  border-radius: 12rpx;
+  transition: all 0.2s ease;
+}
+
+.action-item:active {
+  background-color: #f5f5f5;
+  transform: scale(0.95);
+}
+
+.action-item.liked {
+  color: #ff2c54;
+}
+
+.share-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 24rpx;
+  color: #666;
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: normal;
+}
+
+.share-btn::after {
+  border: none;
+}
+
+.navigation-section {
+  margin: 40rpx 0;
+  padding: 0 36rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.navigation-button {
+  background: linear-gradient(135deg, #1989fa, #0570db);
+  color: #ffffff;
+  font-size: 32rpx;
+  font-weight: bold;
+  border-radius: 50rpx;
+  padding: 24rpx 0;
+  width: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10rpx 20rpx rgba(25, 137, 250, 0.3);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.navigation-button::after {
+  border: none;
+}
+
+.navigation-button text {
+  margin-left: 12rpx;
+}
+
+.navigation-button-hover {
+  transform: scale(0.95);
+  box-shadow: 0 5rpx 10rpx rgba(25, 137, 250, 0.2);
+}
+
+.fish-species-section {
+  background-color: #fff;
+  border-radius: 24rpx;
+  padding: 36rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 20rpx 20rpx rgba(0, 0, 0, 0.05);
+}
+
+.fish-species-list {
+  margin-top: 20rpx;
+}
+
+.fish-card {
+  margin-bottom: 16rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.05);
+  background-color: #f9f9f9;
+}
+
+.review-section {
+  background-color: #fff;
+  margin-top: 30rpx;
+  padding: 40rpx 36rpx;
+  border-radius: 48rpx;
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 24rpx;
+  padding-bottom: 16rpx;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.review-list {
+  padding: 0 10rpx;
+}
+
+.review-item {
+  padding: 24rpx 0;
+  border-bottom: 1px solid #f5f5f5;
+  transition: all 0.3s ease;
+}
+
+.review-item:active {
+  background-color: #f9f9f9;
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.review-avatar {
+  margin-right: 16rpx;
+}
+
+.review-info {
+  flex: 1;
+}
+
+.review-user {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.review-time {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.review-content {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.5;
+}
+
+.review-images {
+  margin-top: 16rpx;
+}
+
+.image-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10rpx;
+}
+
+.review-input-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-bottom: 30rpx;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  z-index: 100;
+  van-button {
+    margin: 10rpx;
+  }
+}
+
+.review-button {
+  flex: 1;
+  margin: 0 20rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 32rpx;
+  font-size: 32rpx;
+  color: #999;
+  background-color: #eee;
+}
+
+.review-input-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10rpx 15rpx;
+  border-bottom: 1px solid #ccc;
+}
+
+.review-input-title {
+  color: #333;
+  font-weight: 800;
+}
+
+.review-input-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20rpx;
+  gap: 16rpx;
+}

@@ -1,0 +1,115 @@
+<!-- pages/post-detail/post-detail.wxml -->
+<view class="container">
+  <!-- 加载中 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <van-loading size="24px" vertical>加载中...</van-loading>
+  </view>
+  <!-- 动态详情 -->
+  <block wx:elif="{{post}}">
+    <view class="post-detail-container">
+      <view class="post-card">
+        <!-- 用户信息 -->
+        <view class="post-header">
+          <view class="user-avatar" bindtap="goToUserProfile" data-user-id="{{post.user.userId}}">
+            <van-image round width="40px" height="40px" src="{{post.userAvatar}}" fit="cover" />
+          </view>
+          <view class="post-info">
+            <view class="post-user">{{post.userName}}</view>
+            <view class="post-time">{{post.formattedTime || post.createdAt}}</view>
+          </view>
+          <view class="post-tag">
+            <van-tag color="#c6e1d8" text-color="#186b50" wx:if="{{post.visibleScope === 'PUBLIC'}}">
+              公开
+            </van-tag>
+            <van-tag color="#ffc1af" text-color="#ff4008" wx:else>私密</van-tag>
+          </view>
+        </view>
+        <!-- 动态内容 -->
+        <view class="post-content">{{post.content}}</view>
+        <!-- 图片展示 -->
+        <view class="post-images" wx:if="{{post.imageUrls.length > 0}}">
+          <van-image wx:for="{{post.imageUrls}}" wx:key="index" width="80" height="80" fit="cover" src="{{item}}" radius="4" bind:click="previewImage" data-current="{{item}}" />
+        </view>
+        <!-- 位置信息 -->
+        <view class="post-location" wx:if="{{post.locationShared}}">
+          <van-tag color="#a5cee4" text-color="#065f8e" size="medium">
+            <van-icon name="location-o" size="14px" />
+            <text>{{item.locationName || (post.latitude + ', ' + post.longitude)}}</text>
+          </van-tag>
+        </view>
+        <!-- 操作栏 -->
+        <view class="post-actions">
+          <view class="action-item {{isLiked ? 'liked' : ''}}" bindtap="handleLike">
+            <van-icon name="{{ isLiked ? 'good-job' : 'good-job-o' }}" size="20px" color="{{ isLiked ? '#1296db' : '' }}" />
+            <text>{{ likeCount < 1 ? '点赞' : likeCount }}</text>
+          </view>
+          <view class="action-item" bind:tap="openReviewInput">
+            <van-icon name="comment-o" size="20px" />
+            <text>{{reviews.length || 0}}</text>
+          </view>
+          <view class="action-item">
+            <button class="share-btn" open-type="share">
+              <van-icon name="share-o" size="20px" />
+              <text>分享</text>
+            </button>
+          </view>
+        </view>
+      </view>
+      <!-- 评论列表 -->
+      <view class="review-section">
+        <view class="section-title">共 {{reviews.length || 0}} 条评论</view>
+        <!-- 评论加载中 -->
+        <view class="loading-container" wx:if="{{reviewLoading}}">
+          <van-loading size="24px">加载中...</van-loading>
+        </view>
+        <!-- 无评论展示 -->
+        <van-empty wx:elif="{{!reviews.length}}" description="暂无评论" />
+        <!-- 评论列表 -->
+        <view class="review-list" wx:else>
+          <view class="review-item" wx:for="{{reviews}}" wx:key="reviewId">
+            <view class="review-header">
+              <view class="review-avatar" bindtap="goToUserProfile" data-user-id="{{item.user.userId}}">
+                <van-image round width="32px" height="32px" src="{{item.userAvatar}}" fit="cover" />
+              </view>
+              <view class="review-info">
+                <view class="review-user">{{item.nickname}}</view>
+                <view class="review-time">{{item.formattedTime || item.createdAt}}</view>
+              </view>
+            </view>
+            <view class="review-content">{{item.content}}</view>
+            <!-- 评论图片展示 -->
+            <view class="review-images" wx:if="{{item.imageUrls.length > 0}}">
+              <view class="image-grid">
+                <van-image wx:for="{{item.imageUrls}}" wx:for-item="imgUrl" wx:key="index" width="80px" height="80px" fit="cover" src="{{imgUrl}}" radius="4" bind:click="previewReviewImage" data-urls="{{item.imageUrls}}" data-current="{{imgUrl}}" />
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <!-- 评论输入框 -->
+      <view class="review-input-container">
+        <view class="review-button" bind:tap="openReviewInput">
+          <van-icon name="edit" size="36rpx" />
+          <text>说说你的看法</text>
+        </view>
+        <van-button type="primary" icon="{{isLiked ? 'good-job' : 'good-job-o'}}" size="small" plain="{{!isLiked}}" color="{{isLiked ? '#1296db' : '#999'}}" round bind:click="handleLike">
+          {{ likeCount }}
+        </van-button>
+        <van-button type="primary" icon="share-o" size="small" color="#999" round plain open-type="share"></van-button>
+      </view>
+      <van-popup show="{{ showReviewInput }}" bind:close="onCloseReviewInput" position="bottom" round>
+        <view class="review-input-header">
+          <text class="review-input-title">评论</text>
+          <van-button color="#1296db" size="small" round plain bind:click="submitReview" loading="{{submitting}}">
+            发布
+          </van-button>
+        </view>
+        <van-field value="{{ reviewContent }}" type="textarea" custom-class="review-input" placeholder="写评论..." bind:change="onReviewInput" autosize="{ maxHeight: 100, minHeight: 50 }" maxlength="200" show-word-limit />
+        <van-uploader upload-text="添加图片" file-list="{{ imageList }}" bind:after-read="afterRead" deletable="{{ true }}" />
+      </van-popup>
+    </view>
+  </block>
+  <!-- 加载失败 -->
+  <van-empty wx:else description="加载失败，请重试" />
+  <van-toast id="van-toast" />
+</view>

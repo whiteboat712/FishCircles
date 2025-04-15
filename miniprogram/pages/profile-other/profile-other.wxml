@@ -1,0 +1,63 @@
+<!-- pages/profile-other/profile-other.wxml -->
+<view class="profile-container">
+  <!-- 用户信息加载中 -->
+  <view class="loading" wx:if="{{!user}}">
+    <van-loading size="24px" type="spinner" color="#1296db">加载中...</van-loading>
+  </view>
+  <!-- 已加载用户信息 -->
+  <block wx:else>
+    <!-- 顶部用户信息 -->
+    <view class="user-header">
+      <view class="avatar-container">
+        <van-image round width="80px" height="80px" src="{{userAvatar}}" fit="cover" />
+      </view>
+      <view class="user-info">
+        <view class="nickname">{{user.nickname}}</view>
+        <view class="username">@{{user.username}}</view>
+        <view class="level">
+          <van-tag round type="primary" size="medium" class="tag">
+            {{user.experienceLevel === 'BEGINNER' ? '新手' : (user.experienceLevel === 'INTERMEDIATE' ? '进阶' : '专业')}}
+          </van-tag>
+          <van-tag round type="success" size="medium" class="tag">{{user.region}}</van-tag>
+        </view>
+      </view>
+      <view>
+        <van-button size="small" round bind:tap="sendMessage" type="info" icon="chat-o">
+          私信
+        </van-button>
+      </view>
+    </view>
+    <!-- 标签页 -->
+    <view class="tabs-container">
+      <van-tabs active="{{ activeTab }}" bind:change="onTabChange" animated swipeable>
+        <van-tab title="Ta的动态">
+          <view class="tab-content">
+            <view class="empty-tip" wx:if="{{!userPosts || userPosts.length === 0}}">
+              <van-icon name="info-o" size="48px" color="#cccccc" />
+              <text>暂无动态</text>
+            </view>
+            <!-- 这里将来放用户动态列表 -->
+          </view>
+        </van-tab>
+        <van-tab title="参与活动">
+          <view class="tab-content">
+            <view class="empty-tip" wx:if="{{!userActivities || userActivities.length === 0}}">
+              <van-icon name="info-o" size="48px" color="#cccccc" />
+              <text>暂无活动</text>
+            </view>
+            <!-- 这里将来放用户活动列表 -->
+          </view>
+        </van-tab>
+        <van-tab title="收藏">
+          <view class="tab-content">
+            <view class="empty-tip" wx:if="{{!userFavorites || userFavorites.length === 0}}">
+              <van-icon name="info-o" size="48px" color="#cccccc" />
+              <text>暂无收藏</text>
+            </view>
+            <!-- 这里将来放用户收藏列表 -->
+          </view>
+        </van-tab>
+      </van-tabs>
+    </view>
+  </block>
+</view>

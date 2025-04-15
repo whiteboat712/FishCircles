@@ -1,0 +1,156 @@
+<!-- pages/posts/posts.wxml -->
+<view class="container">
+  <!-- 标签页切换 -->
+  <van-tabs active="{{ activeTab }}" bind:change="onTabChange" sticky swipeable animated>
+    <van-tab title="全部动态">
+      <!-- 动态列表 -->
+      <scroll-view refresher-enabled="true" refresher-enabled refresher-triggered="{{ loading }}" bindrefresherrefresh="reLoad" scroll-y="true" class="post-list">
+        <!-- 加载中 -->
+        <view class="loading-container" wx:if="{{loading}}">
+          <van-loading size="24px" vertical>加载中...</van-loading>
+        </view>
+        <!-- 无数据展示 -->
+        <block wx:elif="{{!posts.length}}">
+          <van-empty description="{{'暂无动态'}}" />
+        </block>
+        <view wx:else>
+          <view class="post-item" wx:for="{{posts}}" wx:key="postId" wx:for-index="postIndex" bindtap="goToPostDetail" data-post-id="{{item.postId}}">
+            <view class="post-card">
+              <!-- 用户信息区域 -->
+              <view class="post-header">
+                <view class="user-avatar" catchtap="goToUserProfile" data-user-id="{{item.userId}}" catchtap="goToUserProfile">
+                  <van-image round width="40px" height="40px" src="{{item.userAvatar}}" fit="cover" />
+                </view>
+                <view class="post-info">
+                  <view class="post-user">{{item.userName}}</view>
+                  <view class="post-time">{{item.formattedTime || item.createdAt}}</view>
+                </view>
+                <view class="post-tag">
+                  <van-tag color="#c6e1d8" text-color="#186b50" wx:if="{{item.visibleScope === 'PUBLIC'}}">
+                    公开
+                  </van-tag>
+                  <van-tag color="#ffc1af" text-color="#ff4008" wx:else>私密</van-tag>
+                </view>
+              </view>
+              <!-- 动态内容 -->
+              <view class="post-content">{{item.content}}</view>
+              <!-- 图片展示 -->
+              <view class="post-images {{item.imageUrls.length === 1 ? 'single-image' : ''}}" wx:if="{{item.imageUrls.length > 0}}">
+                <van-image wx:for="{{item.imageUrls}}" wx:for-item="img" wx:key="index" width="{{item.imageUrls.length === 1 ? '650rpx' : '220rpx'}}" height="{{item.imageUrls.length === 1 ? '400rpx' : '220rpx'}}" fit="cover" src="{{img}}" radius="8rpx" lazy-load />
+              </view>
+              <!-- 位置信息 -->
+              <view class="post-location" wx:if="{{item.locationShared}}" catchtap="locationMapShow" data-latitude="{{item.latitude}}" data-longitude="{{item.longitude}}" data-location-name="{{item.locationName}}" data-post-index="{{postIndex}}">
+                <van-tag color="#a5cee4" text-color="#065f8e" size="medium">
+                  <van-icon name="location-o" size="14px" />
+                  <text>{{item.locationName || (item.latitude + ', ' + item.longitude)}}</text>
+                </van-tag>
+              </view>
+              <!-- 操作栏 -->
+              <view class="post-actions">
+                <view class="action-item {{item.isLiked ? 'liked' : ''}}" catch:tap="handleLike" data-post-id="{{item.postId}}" data-index="{{postIndex}}">
+                  <van-icon name="{{item.isLiked ? 'good-job' : 'good-job-o'}}" size="24px" color="{{item.isLiked ? '#ff2c54' : ''}}" />
+                  <text>{{item.likeCount || 0}}</text>
+                </view>
+                <view class="action-item" catchtap="goToComment" data-post-id="{{item.postId}}">
+                  <van-icon name="comment-o" size="24px" />
+                  <text>{{item.reviewCount || 0}}</text>
+                </view>
+                <view class="action-item">
+                  <button class="share-btn" open-type="share" catchtap="sharePost" data-post-id="{{item.postId}}">
+                    <van-icon name="share-o" size="24px" />
+                    <text>分享</text>
+                  </button>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </van-tab>
+    <van-tab title="同城动态">
+      <!-- 动态列表 -->
+      <scroll-view refresher-enabled="true" refresher-enabled refresher-triggered="{{ loading }}" bindrefresherrefresh="reLoad" scroll-y="true" class="post-list">
+        <!-- 加载中 -->
+        <view class="loading-container" wx:if="{{loading}}">
+          <van-loading size="24px" vertical>加载中...</van-loading>
+        </view>
+        <!-- 无数据展示 -->
+        <block wx:elif="{{!filteredPosts.length}}">
+          <van-empty description="暂无同城动态" />
+        </block>
+        <view wx:else>
+          <view class="post-item" wx:for="{{filteredPosts}}" wx:key="postId" wx:for-index="postIndex" bindtap="goToPostDetail" data-post-id="{{item.postId}}">
+            <view class="post-card">
+              <!-- 用户信息区域 -->
+              <view class="post-header">
+                <view class="user-avatar" catchtap="goToUserProfile" data-user-id="{{item.userId}}" catchtap="goToUserProfile">
+                  <van-image round width="40px" height="40px" src="{{item.userAvatar}}" fit="cover" />
+                </view>
+                <view class="post-info">
+                  <view class="post-user">{{item.userName}}</view>
+                  <view class="post-time">{{item.formattedTime || item.createdAt}}</view>
+                </view>
+                <view class="post-tag">
+                  <van-tag color="#c6e1d8" text-color="#186b50" wx:if="{{item.visibleScope === 'PUBLIC'}}">
+                    公开
+                  </van-tag>
+                  <van-tag color="#ffc1af" text-color="#ff4008" wx:else>私密</van-tag>
+                </view>
+              </view>
+              <!-- 动态内容 -->
+              <view class="post-content">{{item.content}}</view>
+              <!-- 图片展示 -->
+              <view class="post-images {{item.imageUrls.length === 1 ? 'single-image' : ''}}" wx:if="{{item.imageUrls.length > 0}}">
+                <van-image wx:for="{{item.imageUrls}}" wx:for-item="img" wx:key="index" width="{{item.imageUrls.length === 1 ? '650rpx' : '220rpx'}}" height="{{item.imageUrls.length === 1 ? '400rpx' : '220rpx'}}" fit="cover" src="{{img}}" radius="8rpx" lazy-load />
+              </view>
+              <!-- 位置信息 -->
+              <view class="post-location" wx:if="{{item.locationShared}}" catchtap="showLocationMap" data-latitude="{{item.latitude}}" data-longitude="{{item.longitude}}" data-location-name="{{item.locationName}}" data-post-index="{{postIndex}}">
+                <van-tag color="#a5cee4" text-color="#065f8e" size="medium">
+                  <van-icon name="location-o" size="14px" />
+                  <text>{{item.locationName || (item.latitude + ', ' + item.longitude)}}</text>
+                </van-tag>
+              </view>
+              <!-- 操作栏 -->
+              <view class="post-actions">
+                <view class="action-item {{item.isLiked ? 'liked' : ''}}" catch:tap="handleLike" data-post-id="{{item.postId}}" data-index="{{postIndex}}">
+                  <van-icon name="{{item.isLiked ? 'good-job' : 'good-job-o'}}" size="24px" color="{{item.isLiked ? '#ff2c54' : ''}}" />
+                  <text>{{item.likeCount || 0}}</text>
+                </view>
+                <view class="action-item" catchtap="goToComment" data-post-id="{{item.postId}}">
+                  <van-icon name="comment-o" size="24px" />
+                  <text>{{item.reviewCount || 0}}</text>
+                </view>
+                <view class="action-item">
+                  <button class="share-btn" open-type="share" catchtap="sharePost" data-post-id="{{item.postId}}">
+                    <van-icon name="share-o" size="24px" />
+                    <text>分享</text>
+                  </button>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </van-tab>
+  </van-tabs>
+  <!-- 发布活动按钮 -->
+  <view class="floating-btn polish-btn" bindtap="goToPublish">
+    <van-icon name="plus" size="24px" color="#fff" />
+  </view>
+  <!-- 搜索活动按钮 -->
+  <view class="floating-btn search-btn" bindtap="goToSearch">
+    <van-icon name="search" size="24px" color="#fff" />
+  </view>
+  <!-- 地图弹出框 -->
+  <van-popup show="{{showLocationMap}}" round position="bottom" custom-style="height: 60%" bind:close="closeLocationMap">
+    <view class="map-popup-container">
+      <view class="map-popup-header">
+        <text class="map-popup-title">{{currentLocationName || '位置信息'}}</text>
+        <van-icon name="cross" size="20px" bind:click="closeLocationMap" class="map-popup-close" />
+      </view>
+      <view class="map-popup-content">
+        <map id="locationMap" longitude="{{currentLongitude}}" latitude="{{currentLatitude}}" scale="14" markers="{{locationMarkers}}" show-location style="width: 100%; height: 100%;"></map>
+      </view>
+    </view>
+  </van-popup>
+</view>

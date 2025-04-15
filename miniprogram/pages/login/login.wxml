@@ -1,0 +1,60 @@
+<!-- pages/login/login.wxml -->
+<view class="login-container">
+  <!-- Logo区域 -->
+  <view class="logo-container">
+    <van-image width="150" height="150" fit="contain" src="/assets/images/default_avatar.jpg" use-loading-slot>
+      <van-loading slot="loading" type="spinner" size="20" vertical />
+    </van-image>
+    <view class="app-name">渔友圈</view>
+  </view>
+  <view class="login-form-container">
+    <!-- 登录方式切换 -->
+    <van-tabs active="{{ activeTab }}" bind:change="onTabChange" animated swipeable>
+      <!-- 微信登录 -->
+      <van-tab title="微信登录">
+        <view class="login-form">
+          <view class="wechat-login-tip">使用微信账号快速登录</view>
+          <van-button custom-class="wechat-btn" icon="wechat" type="primary" color="#07c160" block round bind:click="wechatLogin">
+            微信一键登录
+          </van-button>
+        </view>
+      </van-tab>
+      <!-- 账号密码登录 -->
+      <van-tab title="账号登录">
+        <view class="login-form">
+          <van-cell-group>
+            <van-field model:value="{{ username }}" label="用户名" placeholder="请输入用户名" clearable required left-icon="contact" />
+            <van-field model:value="{{ password }}" type="password" label="密码" placeholder="请输入密码" clearable required left-icon="closed-eye" />
+          </van-cell-group>
+          <view class="login-options">
+            <view class="forgot-password" bind:tap="forgotPassword">忘记密码?</view>
+          </view>
+          <van-button custom-class="login-btn" type="primary" block round bind:click="accountLogin">
+            登录
+          </van-button>
+        </view>
+      </van-tab>
+      <!-- 注册 -->
+      <van-tab title="注册账号">
+        <view class="login-form">
+          <van-cell-group>
+            <van-field model:value="{{ registerUsername }}" label="用户名" placeholder="请输入用户名" clearable required left-icon="contact" />
+            <van-field model:value="{{ registerPassword }}" type="password" label="密码" placeholder="请输入密码" clearable required left-icon="closed-eye" />
+            <van-field model:value="{{ confirmPassword }}" type="password" label="确认密码" placeholder="请再次输入密码" clearable required left-icon="closed-eye" />
+          </van-cell-group>
+          <van-button custom-class="register-btn" type="primary" block round bind:click="register">
+            注册
+          </van-button>
+        </view>
+      </van-tab>
+    </van-tabs>
+  </view>
+  <!-- 底部协议说明 -->
+  <view class="agreement-container">
+    <text class="agreement-text">登录或注册即代表您同意</text>
+    <text class="agreement-link" bind:tap="viewUserAgreement">《用户协议》</text>
+    <text class="agreement-text">和</text>
+    <text class="agreement-link" bind:tap="viewPrivacyPolicy">《隐私政策》</text>
+  </view>
+  <van-toast id="van-toast" />
+</view>
