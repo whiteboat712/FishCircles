@@ -4,13 +4,9 @@
   <van-tabs active="{{ activeTab }}" bind:change="onTabChange" sticky swipeable animated>
     <van-tab title="全部动态">
       <!-- 动态列表 -->
-      <scroll-view refresher-enabled="true" refresher-enabled refresher-triggered="{{ loading }}" bindrefresherrefresh="reLoad" scroll-y="true" class="post-list">
-        <!-- 加载中 -->
-        <view class="loading-container" wx:if="{{loading}}">
-          <van-loading size="24px" vertical>加载中...</van-loading>
-        </view>
+      <scroll-view class="post-list">
         <!-- 无数据展示 -->
-        <block wx:elif="{{!posts.length}}">
+        <block wx:if="{{!posts.length}}">
           <van-empty description="{{'暂无动态'}}" />
         </block>
         <view wx:else>
@@ -69,13 +65,9 @@
     </van-tab>
     <van-tab title="同城动态">
       <!-- 动态列表 -->
-      <scroll-view refresher-enabled="true" refresher-enabled refresher-triggered="{{ loading }}" bindrefresherrefresh="reLoad" scroll-y="true" class="post-list">
-        <!-- 加载中 -->
-        <view class="loading-container" wx:if="{{loading}}">
-          <van-loading size="24px" vertical>加载中...</van-loading>
-        </view>
+      <scroll-view class="post-list">
         <!-- 无数据展示 -->
-        <block wx:elif="{{!filteredPosts.length}}">
+        <block wx:if="{{!filteredPosts.length}}">
           <van-empty description="暂无同城动态" />
         </block>
         <view wx:else>

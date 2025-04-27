@@ -10,7 +10,7 @@
   <view class="login-form-container">
     <!-- 登录方式切换 -->
     <van-tabs active="{{ activeTab }}" bind:change="onTabChange" animated swipeable>
-      <!-- 微信登录 -->
+      <!-- 微信登录
       <van-tab title="微信登录">
         <view class="login-form">
           <view class="wechat-login-tip">使用微信账号快速登录</view>
@@ -18,7 +18,7 @@
             微信一键登录
           </van-button>
         </view>
-      </van-tab>
+      </van-tab> -->
       <!-- 账号密码登录 -->
       <van-tab title="账号登录">
         <view class="login-form">

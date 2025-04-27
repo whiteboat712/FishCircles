@@ -261,4 +261,12 @@ Page({
       this.reLoad();
     }
   },
+
+  onPullDownRefresh() {
+    this.loadUserData();
+    if (this.data.user) {
+      this.reLoad();
+    }
+    wx.stopPullDownRefresh();
+  }
 });

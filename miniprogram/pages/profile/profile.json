@@ -10,5 +10,6 @@
     "van-tabs": "@vant/weapp/tabs/index",
     "van-tab": "@vant/weapp/tab/index"
   },
-  "navigationBarTitleText": "个人信息"
+  "navigationBarTitleText": "个人信息",
+  "enablePullDownRefresh": true
 }

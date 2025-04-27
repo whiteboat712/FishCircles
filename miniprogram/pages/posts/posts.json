@@ -11,5 +11,6 @@
     "van-tabs": "@vant/weapp/tabs/index",
     "van-tab": "@vant/weapp/tab/index",
     "van-popup": "@vant/weapp/popup/index"
-  }
+  },
+  "enablePullDownRefresh": true
 }

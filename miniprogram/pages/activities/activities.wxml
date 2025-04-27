@@ -6,13 +6,9 @@
     <van-tab title="同城活动"></van-tab>
   </van-tabs>
   <!-- 活动列表 -->
-  <scroll-view refresher-enabled="true" refresher-enabled refresher-triggered="{{ loading }}" bindrefresherrefresh="reLoad" scroll-y="true" class="activity-list">
-    <!-- 加载中 -->
-    <view class="loading-container" wx:if="{{loading}}">
-      <van-loading size="24px" vertical>加载中...</van-loading>
-    </view>
+  <scroll-view scroll-y="true" class="activity-list">
     <!-- 无数据展示 -->
-    <block wx:elif="{{activeTab === 0 && !activities.length || activeTab === 1 && !filteredActivities.length}}">
+    <block wx:if="{{activeTab === 0 && !activities.length || activeTab === 1 && !filteredActivities.length}}">
       <van-empty description="{{activeTab === 0 ? '暂无活动' : '暂无同城活动'}}" />
     </block>
     <view wx:else>

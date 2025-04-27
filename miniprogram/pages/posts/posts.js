@@ -14,7 +14,6 @@ Page({
    */
   data: {
     posts: [],
-    loading: true,
     currentUser: null,
     showLocationFilter: false,
     isLocationFiltered: false,
@@ -32,9 +31,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad() {
-    // 获取用户位置信息
-    // this.getUserLocation()
-    // 获取动态数据
     this.reLoad();
   },
 
@@ -43,6 +39,11 @@ Page({
    */
   onShow() {
     this.reLoad();
+  },
+
+  onPullDownRefresh() {
+    this.reLoad();
+    wx.stopPullDownRefresh();
   },
 
   reLoad() {
@@ -156,7 +157,6 @@ Page({
    */
   async fetchPosts() {
     try {
-      this.setData({ loading: true });
       const res = await reqAllPosts();
 
       // 处理动态数据
@@ -217,12 +217,10 @@ Page({
       );
 
       this.setData({
-        posts,
-        loading: false,
+        posts
       });
     } catch (error) {
       console.error("获取动态列表失败", error);
-      this.setData({ loading: false });
       wx.showToast({
         title: "获取动态列表失败",
         icon: "error",

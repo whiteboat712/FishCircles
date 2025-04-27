@@ -35,7 +35,7 @@
     <!-- 标签页切换 -->
     <van-tabs active="{{ activeTab }}" bind:change="onTabChange" sticky animated swipeable>
       <van-tab title="动态">
-        <scroll-view refresher-enabled="true" refresher-triggered="{{ loading }}" scroll-y="true" class="search-results">
+        <scroll-view scroll-y="true" class="search-results">
           <!-- 加载中 -->
           <view class="loading-container" wx:if="{{loading}}">
             <van-loading size="24px" vertical>加载中...</van-loading>
@@ -83,7 +83,7 @@
         </scroll-view>
       </van-tab>
       <van-tab title="活动">
-        <scroll-view refresher-enabled="true" refresher-triggered="{{ loading }}" scroll-y="true" class="search-results">
+        <scroll-view scroll-y="true" class="search-results">
           <!-- 加载中 -->
           <view class="loading-container" wx:if="{{loading}}">
             <van-loading size="24px" vertical>加载中...</van-loading>

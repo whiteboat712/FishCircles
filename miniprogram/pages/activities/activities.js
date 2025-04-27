@@ -15,7 +15,6 @@ Page({
    */
   data: {
     activities: [],
-    loading: true,
     currentUser: null,
     showLocationFilter: false,
     isLocationFiltered: false,
@@ -29,9 +28,6 @@ Page({
    */
   onLoad() {
     this.reLoad();
-
-    // 获取用户位置信息
-    // this.getUserLocation()
   },
 
   /**
@@ -39,6 +35,11 @@ Page({
    */
   onShow() {
     this.reLoad();
+  },
+
+  onPullDownRefresh() {
+    this.reLoad();
+    wx.stopPullDownRefresh();
   },
 
   reLoad() {
@@ -146,7 +147,6 @@ Page({
    */
   async fetchActivities() {
     try {
-      this.setData({ loading: true });
 
       // 调用API获取活动列表
       const res = await reqAllActivities();
@@ -217,12 +217,10 @@ Page({
       );
 
       this.setData({
-        activities,
-        loading: false,
+        activities
       });
     } catch (error) {
       console.error("获取活动列表失败", error);
-      this.setData({ loading: false });
       wx.showToast({
         title: "获取活动列表失败",
         icon: "none",

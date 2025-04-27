@@ -45,7 +45,7 @@ Page({
       title: "修改地区",
       editable: true,
       placeholderText: "请输入您所在的地区",
-      content: this.data.user.region,
+      content: this.data.user.region || '',
       success(res) {
         if (res.confirm && res.content.trim()) {
           const user = that.data.user;
