@@ -32,6 +32,13 @@ Page({
    */
   onLoad() {
     this.reLoad();
+    wx.getSystemInfo({
+		success: function(res) {
+			console.log('DPR：' + res.pixelRatio)
+			console.log('宽度：' + res.screenWidth)
+			console.log('高度：' + res.screenHeight)
+		}
+	})
   },
 
   /**

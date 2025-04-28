@@ -26,7 +26,14 @@
           <!-- 消息气泡 -->
           <view class="message-content {{item.senderId === currentUser.userId ? 'message-content-mine' : 'message-content-other'}}">
             <!-- 文本消息 -->
-            <text class="message-text">{{item.content}}</text>
+            <block wx:if="{{item.isLoading}}">
+              <view class="loading-container">
+                <text class="message-text">{{item.content}}</text>
+              </view>
+            </block>
+            <block wx:else>
+              <text class="message-text">{{item.content}}</text>
+            </block>
           </view>
         </view>
       </view>
@@ -35,7 +42,7 @@
     <view id="message-bottom" style="height: 20rpx;"></view>
   </scroll-view>
   <!-- 输入区域 -->
-  <view class="input-area">
+  <view class="input-area" style="transform: translateY(-{{inputBottom}}px);">
     <view class="input-toolbar">
       <input class="message-input" value="{{inputMessage}}" bindinput="onInputChange" bindfocus="onInputFocus" placeholder="输入消息..." confirm-type="send" bindconfirm="sendTextMessage" adjust-position="{{false}}" cursor-spacing="20" />
       <!-- 表情按钮 -->

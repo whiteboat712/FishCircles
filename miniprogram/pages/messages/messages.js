@@ -21,6 +21,7 @@ Page({
     reviewMessages: [], // 评论消息列表
     chatMessages: [], // 私信消息列表
     currentUser: null,
+    hasDeepSeekChat: false, // 是否有DeepSeek助手的聊天记录
     // 轮询相关
     pollingTimer: null,
     pollingInterval: 10000, // 轮询间隔，单位毫秒
@@ -77,6 +78,16 @@ Page({
 
     // 打开对应类型的弹出层
     this.openPopup(type);
+  },
+
+  /**
+   * 跳转到DeepSeek钓鱼助手聊天页面
+   */
+  goToDeepSeekChat() {
+    console.log("进入DEEPSEEK");
+    wx.navigateTo({
+      url: '/pages/chat/chat?targetUserId=7'
+    });
   },
 
   /**
@@ -156,19 +167,30 @@ Page({
    */
   async processChatMessages(messages) {
     if (!messages || messages.length === 0) {
-      this.setData({ chatMessages: [] });
+      this.setData({ 
+        chatMessages: [],
+        hasDeepSeekChat: false // 没有消息时，设置为没有DeepSeek聊天记录
+      });
       return;
     }
 
     // 按联系人分组消息
     const messagesByContact = {};
     const currentUserId = this.data.currentUser.userId;
+    
+    // 标记是否有DeepSeek助手的聊天记录（DeepSeek助手的userId为7）
+    let hasDeepSeekChat = false;
 
     // 遍历所有消息，按联系人分组
     messages.forEach((msg) => {
       // 确定联系人ID（如果当前用户是发送者，则联系人是接收者；反之亦然）
       const contactId =
         msg.senderId === currentUserId ? msg.receiverId : msg.senderId;
+      
+      // 检查是否有DeepSeek助手的聊天记录（DeepSeek助手的userId为7）
+      if (contactId == 7) {
+        hasDeepSeekChat = true;
+      }
 
       if (!messagesByContact[contactId]) {
         messagesByContact[contactId] = [];
@@ -238,7 +260,10 @@ Page({
     // 按最后消息时间排序（最新的在前面）
     chatMessages.sort((a, b) => new Date(b.sentAt) - new Date(a.sentAt));
 
-    this.setData({ chatMessages });
+    this.setData({ 
+      chatMessages,
+      hasDeepSeekChat // 更新是否有DeepSeek助手聊天记录的状态
+    });
   },
 
   /**

@@ -90,6 +90,20 @@
       <van-loading size="24px" vertical>加载中...</van-loading>
     </view>
     <block wx:elif="{{chatMessages.length > 0}}">
+      <!-- 只有当用户没有与DeepSeek助手的聊天记录时才显示入口 -->
+      <van-swipe-cell wx:if="{{!hasDeepSeekChat}}">
+        <view class="chat-item" bindtap="goToDeepSeekChat">
+          <view class="avatar">
+            <van-image src="/assets/images/deepseek-color.png" round width="40px" height="40px" fit="cover" />
+          </view>
+          <view class="chat-info">
+            <view class="chat-header">
+              <text class="username">DeepSeek钓鱼助手</text>
+            </view>
+            <view class="chat-brief">解答钓鱼常识</view>
+          </view>
+        </view>
+      </van-swipe-cell>
       <van-swipe-cell wx:for="{{chatMessages}}" wx:key="contactId" right-width="{{ 65 }}">
         <view class="chat-item" bindtap="goToChat" data-contact-id="{{item.contactId}}">
           <view class="avatar" catch:tap="goToUserProfile" data-user-id="{{item.contactId}}">
